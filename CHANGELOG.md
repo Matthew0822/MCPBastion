@@ -11,3 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Rust gateway (`gateway/`)** — a `std`-only CLI, `mcp-bastion`, that reads
   newline-delimited JSON-RPC from stdin, evaluates each message against a
+  policy, and forwards permitted (and redacted) messages to stdout.
+  - Honest single-pass JSON field extractor (`json_scan`) that skips string
+    literals, tracks nesting, and returns raw value spans. It is explicitly
