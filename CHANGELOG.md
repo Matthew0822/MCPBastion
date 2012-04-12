@@ -9,3 +9,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Rust gateway (`gateway/`)** — a `std`-only CLI, `mcp-bastion`, that reads
+  newline-delimited JSON-RPC from stdin, evaluates each message against a
