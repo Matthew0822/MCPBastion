@@ -21,3 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Sliding-window rate limiter.
   - Argument-value redaction (`redact`) that preserves surrounding bytes.
   - Structured, one-line-per-event JSON audit records (`audit`).
+  - Pure decision pipeline (`engine`) covered by unit and integration tests.
+  - `--stats` summary line and deterministic `--epoch-ms` mode for demos.
