@@ -18,3 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Line-oriented policy format (`policy`) with `allow_tool` / `deny_tool`
     glob rules (deny wins), `redact_arg` patterns, `max_bytes`, `max_depth`,
     `rate_limit` / `rate_window_ms`, and a configurable `redaction_mask`.
+  - Sliding-window rate limiter.
+  - Argument-value redaction (`redact`) that preserves surrounding bytes.
+  - Structured, one-line-per-event JSON audit records (`audit`).
