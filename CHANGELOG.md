@@ -30,3 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     summary line. `--json` for machine output; `--decision`/`--tool` filters.
   - `tail` — one compact line per event.
   - `policy` — parse, summarise, and lint a policy file (unknown directives,
+    shadowed allows, bad numbers).
+- **Samples** — three policies (`default`, `permissive`, `strict`), a demo
+  session, and the exact forwarded/audit output the gateway produces for it.
