@@ -4,3 +4,6 @@
 # thin wrapper around cargo / npm so behaviour is identical in CI and locally.
 
 GATEWAY := gateway
+CONSOLE := console
+POLICY  := policies/default.policy
+SESSION := sessions/demo-session.jsonl
