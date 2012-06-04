@@ -11,3 +11,6 @@ SESSION := sessions/demo-session.jsonl
 .PHONY: all build test lint fmt gateway-build gateway-test gateway-lint \
         console-build console-test demo clean help
 
+all: build test ## Build and test everything
+
+help: ## Show this help
