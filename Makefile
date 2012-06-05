@@ -21,3 +21,7 @@ build: gateway-build console-build ## Build both components
 
 test: gateway-test console-test ## Test both components
 
+lint: gateway-lint ## Lint the Rust gateway (clippy)
+
+fmt: ## Format the Rust sources
+	cd $(GATEWAY) && cargo fmt
