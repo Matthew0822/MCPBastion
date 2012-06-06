@@ -25,3 +25,7 @@ lint: gateway-lint ## Lint the Rust gateway (clippy)
 
 fmt: ## Format the Rust sources
 	cd $(GATEWAY) && cargo fmt
+
+# ---- Rust gateway ----------------------------------------------------------
+
+gateway-build: ## Build the gateway (release)
