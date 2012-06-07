@@ -29,3 +29,6 @@ fmt: ## Format the Rust sources
 # ---- Rust gateway ----------------------------------------------------------
 
 gateway-build: ## Build the gateway (release)
+	cd $(GATEWAY) && cargo build --release
+
+gateway-test: ## Run the gateway test suite
