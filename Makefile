@@ -36,3 +36,6 @@ gateway-test: ## Run the gateway test suite
 
 gateway-lint: ## Run clippy with warnings denied
 	cd $(GATEWAY) && cargo clippy --all-targets -- -D warnings
+
+# ---- TypeScript console ----------------------------------------------------
+
