@@ -46,3 +46,7 @@ console-test: console-build ## Run the console test suite
 	cd $(CONSOLE) && npm test
 
 # ---- Demo ------------------------------------------------------------------
+
+demo: gateway-build console-build ## Run the end-to-end demo
+	cat $(SESSION) | $(GATEWAY)/target/release/mcp-bastion \
+		--policy $(POLICY) --audit sessions/demo-audit.jsonl --stats --epoch-ms 0 \
