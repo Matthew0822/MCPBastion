@@ -30,3 +30,12 @@ Two components, two languages, zero runtime deps:
 - [The demo session, replayed](#the-demo-session-replayed)
 - [Policy routing](#policy-routing)
 - [The redaction pipeline](#the-redaction-pipeline)
+- [Rate, size and depth controls](#rate-size-and-depth-controls)
+- [The audit console](#the-audit-console)
+- [The JSON extractor: honesty and limits](#the-json-extractor-honesty-and-limits)
+- [Fail-closed behaviour](#fail-closed-behaviour)
+- [Operational recipes](#operational-recipes) · [Exit behaviour](#exit-behaviour) · [Troubleshooting](#troubleshooting) · [Roadmap](#roadmap)
+
+## The checkpoint, message by message
+
+Every non-empty input line runs the same gauntlet, in this order. The first gate that fires decides the message; nothing downstream of it runs. This is the pipeline in `gateway/src/engine.rs::process_line`:
