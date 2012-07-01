@@ -49,3 +49,12 @@ Every non-empty input line runs the same gauntlet, in this order. The first gate
 7. **Rate.** A would-be-forwarded message arriving while the rolling window is full is **dropped**. Only forwarded messages count against the window.
 8. **Redact & forward.** Matching argument values are spliced with the mask, and the message — every other byte intact — is written to `stdout`.
 
+Whatever the outcome, one audit event is emitted describing it.
+
+## Standing up the gateway
+
+Prerequisites: a Rust toolchain (`cargo`) and Node.js ≥ 18.
+
+```sh
+make build          # cargo build --release  +  npm install && npm run build
+make demo           # runs the whole gauntlet end-to-end and prints the report
