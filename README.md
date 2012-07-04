@@ -58,3 +58,12 @@ Prerequisites: a Rust toolchain (`cargo`) and Node.js ≥ 18.
 ```sh
 make build          # cargo build --release  +  npm install && npm run build
 make demo           # runs the whole gauntlet end-to-end and prints the report
+```
+
+`make demo` is the fastest way to see the checkpoint work; it is the exact command below, wired to the shipped sample session so the whole thing is self-contained and deterministic:
+
+```sh
+cat sessions/demo-session.jsonl \
+  | gateway/target/release/mcp-bastion \
+      --policy policies/default.policy \
+      --audit sessions/demo-audit.jsonl \
