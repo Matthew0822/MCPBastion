@@ -67,3 +67,12 @@ cat sessions/demo-session.jsonl \
   | gateway/target/release/mcp-bastion \
       --policy policies/default.policy \
       --audit sessions/demo-audit.jsonl \
+      --stats --epoch-ms 0 \
+  > sessions/demo-forwarded.jsonl
+```
+
+The flags, precisely:
+
+| Flag | Meaning |
+|------|---------|
+| `--policy <FILE>` | **Required.** The policy to enforce. |
