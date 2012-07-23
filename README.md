@@ -86,3 +86,12 @@ The flags, precisely:
 In real use the checkpoint belongs *in the pipe* between your client and your MCP server, framed as newline JSON both ways. Because the gateway is strictly a `stdin → stdout` relay, you compose it with the shell (or your client's launch config), not with a built-in "wrap this server" flag:
 
 ```sh
+your-mcp-client \
+  | mcp-bastion --policy policies/default.policy --audit audit.jsonl \
+  | some-mcp-server
+```
+
+This repo ships the single-direction *replay* form (`cat session | mcp-bastion > forwarded`) so the demo needs no live server. There is no reverse channel management, no request/response correlation, and no transport translation — don't read more into it than that.
+
+## The demo session, replayed
+
