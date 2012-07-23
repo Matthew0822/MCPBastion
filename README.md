@@ -76,3 +76,13 @@ The flags, precisely:
 | Flag | Meaning |
 |------|---------|
 | `--policy <FILE>` | **Required.** The policy to enforce. |
+| `--audit <FILE>` | Write audit events here instead of `stderr`. |
+| `--stats` | Append a `{"summary":true,…}` line at EOF. |
+| `--epoch-ms <N>` | Pin the base timestamp for deterministic demos/tests. |
+| `--help` / `--version` | Print usage or version and exit. |
+
+### Placing it inline (the honest way)
+
+In real use the checkpoint belongs *in the pipe* between your client and your MCP server, framed as newline JSON both ways. Because the gateway is strictly a `stdin → stdout` relay, you compose it with the shell (or your client's launch config), not with a built-in "wrap this server" flag:
+
+```sh
