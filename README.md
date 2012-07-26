@@ -95,3 +95,12 @@ This repo ships the single-direction *replay* form (`cat session | mcp-bastion >
 
 ## The demo session, replayed
 
+The sample [`sessions/demo-session.jsonl`](sessions/demo-session.jsonl) is ten messages: a handshake, a `tools/list`, six real tool calls, a couple of dangerous ones, and one malformed `tools/call` with no `name`. Under [`policies/default.policy`](policies/default.policy) (deny-by-default, read-only allow-list, credential redaction) it yields **4 forwarded, 6 denied, 0 dropped**.
+
+What comes out on `stdout` is the four survivors, with credentials — and nothing else — replaced. Note how the `{brace}` and escaped `"quotes"` inside the `note` string ride through untouched: proof the extractor respects string boundaries.
+
+```json
+{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"search_files","arguments":{"query":"password","access_token":"«redacted»","note":"contains a {brace} and \"quotes\""}}}
+```
+
+The six that never reach the server, and why:
