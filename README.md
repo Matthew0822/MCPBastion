@@ -104,3 +104,12 @@ What comes out on `stdout` is the four survivors, with credentials — and nothi
 ```
 
 The six that never reach the server, and why:
+
+| id | tool / method | decision | reason |
+|----|---------------|----------|--------|
+| 1 | `initialize` | deny | default deny (non `tools/call`) |
+| 2 | `tools/list` | deny | default deny (non `tools/call`) |
+| 6 | `shell.exec` | deny | `deny_tool shell.*` |
+| 7 | `fs.delete` | deny | `deny_tool fs.delete` |
+| 8 | `format_disk` | deny | default deny (not on allow-list) |
+| 10 | *(missing name)* | deny | `tools/call missing extractable params.name` |
