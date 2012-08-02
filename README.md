@@ -123,3 +123,12 @@ A policy is a tiny, line-oriented file (`key = value` or `key value`; `#` commen
 ```text
 default = deny
 
+allow_tool = read_file
+allow_tool = list_dir
+allow_tool = search_files
+allow_tool = get_metadata
+
+deny_tool  = shell.*
+deny_tool  = fs.delete
+deny_tool  = net.*
+
