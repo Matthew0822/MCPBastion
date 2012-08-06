@@ -132,3 +132,12 @@ deny_tool  = shell.*
 deny_tool  = fs.delete
 deny_tool  = net.*
 
+redact_arg = *token*
+redact_arg = *secret*
+redact_arg = api_key
+redact_arg = authorization
+
+max_bytes      = 65536
+rate_limit     = 20
+rate_window_ms = 1000
+redaction_mask = "«redacted»"
