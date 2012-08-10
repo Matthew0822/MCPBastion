@@ -141,3 +141,12 @@ max_bytes      = 65536
 rate_limit     = 20
 rate_window_ms = 1000
 redaction_mask = "«redacted»"
+```
+
+Routing rules that matter:
+
+- **Deny wins.** If a tool matches both an `allow_tool` and a `deny_tool`, it is denied.
+- **Globs are literal + `*`.** `*` matches any run of characters (including empty); there is no `?` or character class. Matching is case-sensitive and must cover the whole name. So `shell.*` catches `shell.exec` but not `shellx`, and `*token*` catches `auth_token`, `token`, and `x_token_y`.
+- **`default` is also the gate for non-`tools/call` methods.** With `default = deny`, an `initialize` or `tools/list` is denied unless you flip the default.
+
+Three sample postures ship in [`policies/`](policies):
