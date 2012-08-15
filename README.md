@@ -169,3 +169,12 @@ Redaction is surgical, not cosmetic. Given a forwarded `tools/call`, the gateway
 - If there is no `params.arguments` object, nothing changes and the original bytes pass through.
 
 In the demo, `api_key`, `access_token`, and `authorization` are masked across three messages — visible as `bytes_out < bytes_in` on those audit lines.
+
+## Rate, size and depth controls
+
+Three independent limiters, each with a distinct job and a distinct outcome:
+
+- **`max_bytes`** — a hard ceiling checked *first*, before parsing. Over-limit lines are **dropped** (`decision: drop`). Default `262144`.
+- **`rate_limit` / `rate_window_ms`** — a sliding-window counter over *forwarded* messages only. When the window is full, the next would-be-forwarded message is **dropped**. `rate_limit = 0` means unlimited. Denied messages never consume the budget.
+- **`max_depth`** — **advisory only.** The structural scan records the maximum nesting depth per message into the audit field `max_depth`, but a deep message is **not** rejected on that basis. It is a signal for the console, not a gate. (The `balanced` audit field is similarly advisory.)
+
