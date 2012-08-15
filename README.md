@@ -187,3 +187,13 @@ The TypeScript console never touches the wire; it reads the audit log the gatewa
 ```sh
 node console/dist/cli.js report <audit.jsonl> [--json] [--decision D] [--tool S]
 node console/dist/cli.js tail   <audit.jsonl> [--decision D]
+node console/dist/cli.js policy <policy-file>
+```
+
+`report` on the demo log:
+
+```text
+MCP Bastion — Audit Report
+==========================
+
+Total messages : 10
