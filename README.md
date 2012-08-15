@@ -197,3 +197,12 @@ MCP Bastion — Audit Report
 ==========================
 
 Total messages : 10
+Bytes in/out   : 1204 / 582
+Redaction events: 3
+Unbalanced msgs : 0
+Max depth seen  : 3
+Gateway summary : MATCHES
+
+Decisions
+---------
+  forward      4 ################........
