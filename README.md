@@ -160,3 +160,12 @@ Three sample postures ship in [`policies/`](policies):
 The authoritative format reference is [`docs/POLICY.md`](docs/POLICY.md).
 
 ## The redaction pipeline
+
+Redaction is surgical, not cosmetic. Given a forwarded `tools/call`, the gateway locates `params.arguments` (an object) with the extractor, walks its **immediate** members, and for each key matching a `redact_arg` glob it replaces *only that value's byte span* with the mask encoded as a JSON string. Everything outside those spans is relayed verbatim (`gateway/src/redact.rs`).
+
+- Splices are applied from the end of the line backwards, so earlier byte offsets stay valid.
+- A non-string value redacts wholesale: `{"creds":{"k":"v"}}` with `redact_arg = creds` becomes `{"creds":"«redacted»"}`.
+- The redacted key names (not the values) are recorded in the audit event's `redacted` array, so you can prove *what* was masked without ever logging the secret itself.
+- If there is no `params.arguments` object, nothing changes and the original bytes pass through.
+
+In the demo, `api_key`, `access_token`, and `authorization` are masked across three messages — visible as `bytes_out < bytes_in` on those audit lines.
