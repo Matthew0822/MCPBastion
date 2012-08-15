@@ -206,3 +206,12 @@ Gateway summary : MATCHES
 Decisions
 ---------
   forward      4 ################........
+  deny         6 ########################
+  drop         0 ........................
+  error        0 ........................
+```
+
+- **`report`** aggregates decisions, per-tool activity, redacted-key tallies, byte totals, and top reasons. `--json` emits the machine form; `--decision`/`--tool` narrow the per-event listing.
+- **`tail`** prints one compact line per event — `#3 FORWARD read_file  allow_tool read_file`, with `[redacted: …]` appended when values were masked.
+- **`policy`** parses, summarises, and **lints** a policy: unknown directives and non-integer numbers are errors; a `deny_tool` shadowing an `allow_tool`, or a redundant allow-list under `default = allow`, are warnings.
+
