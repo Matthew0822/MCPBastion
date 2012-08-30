@@ -280,3 +280,12 @@ Exit codes (from `gateway/src/main.rs`):
 
 | Code | Meaning |
 |------|---------|
+| `0` | Clean EOF — the session ended normally. |
+| `1` | I/O error during the session. |
+| `2` | Usage error (bad or missing arguments). |
+| `3` | Policy could not be read or parsed. |
+
+`error` as an audit *decision* is reserved and not emitted in 0.1 — the pipeline maps every message to forward, deny, or drop.
+
+## Troubleshooting
+
