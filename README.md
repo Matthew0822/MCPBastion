@@ -271,3 +271,12 @@ cat session.jsonl | mcp-bastion --policy p.policy 2>/dev/null > forwarded.jsonl
 ## Exit behaviour
 
 Streams:
+
+- **stdout** — permitted, redacted messages, one per line. Flushed after every write.
+- **audit sink** — one JSON event per input line; `stderr` by default, or the `--audit` file. Also flushed per write.
+- **stderr** — errors and, absent `--audit`, the audit events themselves.
+
+Exit codes (from `gateway/src/main.rs`):
+
+| Code | Meaning |
+|------|---------|
