@@ -243,3 +243,12 @@ The default answer is "no." Concretely, a message is refused (denied or dropped)
 - it is not a JSON object (drop);
 - it is a `tools/call` whose `params.name` cannot be extracted as a string (deny);
 - its tool matches a `deny_tool` (deny);
+- its tool is on no list and `default = deny` (deny);
+- a non-`tools/call` method arrives under `default = deny` (deny);
+- the rate window is full (drop).
+
+There is no path in which uncertainty resolves to "forward." If the checkpoint cannot articulate a positive reason to pass a message, it does not pass it.
+
+## Operational recipes
+
+```sh
