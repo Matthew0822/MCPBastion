@@ -252,3 +252,12 @@ There is no path in which uncertainty resolves to "forward." If the checkpoint c
 ## Operational recipes
 
 ```sh
+# Watch only what got blocked, live
+node console/dist/cli.js tail audit.jsonl --decision deny
+
+# Machine-readable rollup for a dashboard or CI gate
+node console/dist/cli.js report audit.jsonl --json
+
+# Everything a single tool did across a session
+node console/dist/cli.js report audit.jsonl --tool read_file
+
