@@ -234,3 +234,12 @@ The security of this checkpoint rests on one modest promise: *the extractor neve
 - Normalise or de-duplicate repeated keys, or care about key ordering.
 
 The consequence is deliberate and safe: the gateway reads the *minimum* needed for a decision, shrinking the attack surface versus a full parser, and when it cannot confidently extract a needed field it **fails closed** rather than improvising. It never pretends to understand more of your traffic than it does.
+
+## Fail-closed behaviour
+
+The default answer is "no." Concretely, a message is refused (denied or dropped) rather than forwarded whenever:
+
+- it exceeds `max_bytes` (drop);
+- it is not a JSON object (drop);
+- it is a `tools/call` whose `params.name` cannot be extracted as a string (deny);
+- its tool matches a `deny_tool` (deny);
