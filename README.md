@@ -261,3 +261,13 @@ node console/dist/cli.js report audit.jsonl --json
 # Everything a single tool did across a session
 node console/dist/cli.js report audit.jsonl --tool read_file
 
+# Lint a policy before you trust it (exits non-zero on errors)
+node console/dist/cli.js policy policies/strict.policy
+
+# Send audit to stderr (no --audit) and keep only the forwarded stream
+cat session.jsonl | mcp-bastion --policy p.policy 2>/dev/null > forwarded.jsonl
+```
+
+## Exit behaviour
+
+Streams:
