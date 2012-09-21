@@ -32,3 +32,16 @@ pub fn process_line(
     let structure = json_scan::structure_report(line);
     let method = json_scan::top_level_string(line, "method");
     let id = id_text(line);
+
+    // Extract the tool name for tools/call requests (params.name).
+    let tool = extract_tool(line);
+
+    let mut ev = AuditEvent {
+        ts_ms: now_ms,
+        seq,
+        decision: Decision::Deny,
+        reason: String::new(),
+        method: method.clone(),
+        tool: tool.clone(),
+        id,
+        bytes_in: line.len(),
