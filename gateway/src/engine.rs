@@ -57,3 +57,16 @@ pub fn process_line(
         ev.reason = format!(
             "size limit exceeded ({} > max_bytes {})",
             line.len(),
+            policy.max_bytes
+        );
+        return Processed {
+            forward: None,
+            event: ev,
+        };
+    }
+
+    // 2. Structural sanity. We do not reject on imbalance (we are not a full
+    //    parser), but a message that is not even minimally object-shaped is
+    //    something we refuse to forward, because we cannot reason about it.
+    if !looks_like_object(line) {
+        ev.decision = Decision::Drop;
