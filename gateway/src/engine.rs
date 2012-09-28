@@ -83,3 +83,16 @@ pub fn process_line(
     let decision = match method.as_deref() {
         Some("tools/call") => match &tool {
             Some(name) => policy.decide_tool(name),
+            None => {
+                // A tools/call without an extractable name is suspicious.
+                ev.decision = Decision::Deny;
+                ev.reason = "tools/call missing extractable params.name".to_string();
+                return Processed {
+                    forward: None,
+                    event: ev,
+                };
+            }
+        },
+        _ => {
+            // Non tool-call: apply default policy as a coarse gate.
+            if policy.default_allow {
