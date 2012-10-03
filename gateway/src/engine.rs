@@ -121,3 +121,16 @@ pub fn process_line(
         ev.decision = Decision::Drop;
         ev.reason = format!(
             "rate limit exceeded ({} per {} ms)",
+            policy.rate_limit, policy.rate_window_ms
+        );
+        return Processed {
+            forward: None,
+            event: ev,
+        };
+    }
+
+    // 5. Redaction.
+    let red = redact::redact_message(line, policy);
+    ev.redacted = red.redacted_keys;
+    ev.bytes_out = red.bytes.len();
+    ev.decision = Decision::Forward;
