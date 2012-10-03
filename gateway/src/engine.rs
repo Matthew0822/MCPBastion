@@ -109,3 +109,15 @@ pub fn process_line(
 
     if !decision.is_allow() {
         ev.decision = Decision::Deny;
+        ev.reason = decision.rule().to_string();
+        return Processed {
+            forward: None,
+            event: ev,
+        };
+    }
+
+    // 4. Rate limit — only counts messages we would otherwise forward.
+    if !limiter.check(now_ms) {
+        ev.decision = Decision::Drop;
+        ev.reason = format!(
+            "rate limit exceeded ({} per {} ms)",
