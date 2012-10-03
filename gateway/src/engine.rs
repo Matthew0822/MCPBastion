@@ -96,3 +96,16 @@ pub fn process_line(
         _ => {
             // Non tool-call: apply default policy as a coarse gate.
             if policy.default_allow {
+                crate::policy::ToolDecision::Allow {
+                    rule: "default allow (non tools/call)".into(),
+                }
+            } else {
+                crate::policy::ToolDecision::Deny {
+                    rule: "default deny (non tools/call)".into(),
+                }
+            }
+        }
+    };
+
+    if !decision.is_allow() {
+        ev.decision = Decision::Deny;
