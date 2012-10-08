@@ -134,3 +134,16 @@ pub fn process_line(
     ev.redacted = red.redacted_keys;
     ev.bytes_out = red.bytes.len();
     ev.decision = Decision::Forward;
+    ev.reason = decision.rule().to_string();
+
+    Processed {
+        forward: Some(red.bytes),
+        event: ev,
+    }
+}
+
+/// A message must at minimum start (after whitespace) with `{` to be treated as
+/// a JSON-RPC object we can reason about.
+fn looks_like_object(bytes: &[u8]) -> bool {
+    let mut i = 0;
+    while i < bytes.len() {
