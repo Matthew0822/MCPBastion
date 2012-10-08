@@ -147,3 +147,16 @@ pub fn process_line(
 fn looks_like_object(bytes: &[u8]) -> bool {
     let mut i = 0;
     while i < bytes.len() {
+        match bytes[i] {
+            b' ' | b'\t' | b'\r' | b'\n' => i += 1,
+            b'{' => return true,
+            _ => return false,
+        }
+    }
+    false
+}
+
+/// Extract the tool name of a `tools/call` request: `params.name` (a string).
+fn extract_tool(bytes: &[u8]) -> Option<String> {
+    let params = json_scan::top_level_span(bytes, "params")?;
+    if params.kind != ValueKind::Object {
