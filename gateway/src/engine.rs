@@ -185,3 +185,16 @@ mod tests {
     use super::*;
     use crate::policy::Policy;
 
+    fn engine_policy() -> Policy {
+        Policy::parse(
+            "\
+default = deny
+allow_tool = read_file
+allow_tool = list_dir
+deny_tool = shell.*
+redact_arg = *token*
+redact_arg = password
+max_bytes = 4096
+rate_limit = 3
+rate_window_ms = 1000
+redaction_mask = \"***\"
