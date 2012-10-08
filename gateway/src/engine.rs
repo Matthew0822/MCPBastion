@@ -160,3 +160,15 @@ fn looks_like_object(bytes: &[u8]) -> bool {
 fn extract_tool(bytes: &[u8]) -> Option<String> {
     let params = json_scan::top_level_span(bytes, "params")?;
     if params.kind != ValueKind::Object {
+        return None;
+    }
+    let name = json_scan::find_key_in_object(bytes, params.start, "name")?;
+    if name.kind != ValueKind::String {
+        return None;
+    }
+    json_scan::decode_string(bytes, name.start, name.end)
+}
+
+/// Return the raw textual form of the top-level `id`, whatever its type.
+fn id_text(bytes: &[u8]) -> Option<String> {
+    let span = json_scan::top_level_span(bytes, "id")?;
