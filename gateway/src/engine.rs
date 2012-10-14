@@ -211,3 +211,16 @@ redaction_mask = \"***\"
     fn allowed_tool_is_forwarded() {
         let p = engine_policy();
         let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+        let out = run(
+            r#"{"jsonrpc":"2.0","method":"tools/call","id":1,"params":{"name":"read_file","arguments":{"path":"/etc/hosts"}}}"#,
+            &p,
+            &mut rl,
+            1,
+            0,
+        );
+        assert_eq!(out.event.decision, Decision::Forward);
+        assert!(out.forward.is_some());
+        assert_eq!(out.event.tool.as_deref(), Some("read_file"));
+    }
+
+    #[test]
