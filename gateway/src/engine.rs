@@ -224,3 +224,15 @@ redaction_mask = \"***\"
     }
 
     #[test]
+    fn denied_tool_is_blocked() {
+        let p = engine_policy();
+        let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+        let out = run(
+            r#"{"method":"tools/call","params":{"name":"shell.exec","arguments":{"cmd":"rm -rf /"}}}"#,
+            &p,
+            &mut rl,
+            1,
+            0,
+        );
+        assert_eq!(out.event.decision, Decision::Deny);
+        assert!(out.forward.is_none());
