@@ -236,3 +236,16 @@ redaction_mask = \"***\"
         );
         assert_eq!(out.event.decision, Decision::Deny);
         assert!(out.forward.is_none());
+        assert!(out.event.reason.contains("deny_tool"));
+    }
+
+    #[test]
+    fn unknown_tool_default_denied() {
+        let p = engine_policy();
+        let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+        let out = run(
+            r#"{"method":"tools/call","params":{"name":"format_disk","arguments":{}}}"#,
+            &p,
+            &mut rl,
+            1,
+            0,
