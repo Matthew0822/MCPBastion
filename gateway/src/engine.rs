@@ -275,3 +275,15 @@ redaction_mask = \"***\"
         let mut p = engine_policy();
         p.max_bytes = 10;
         let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+        let out = run(
+            r#"{"method":"tools/call","params":{"name":"read_file","arguments":{}}}"#,
+            &p,
+            &mut rl,
+            1,
+            0,
+        );
+        assert_eq!(out.event.decision, Decision::Drop);
+        assert!(out.event.reason.contains("size limit"));
+    }
+
+    #[test]
