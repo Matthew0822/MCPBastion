@@ -287,3 +287,16 @@ redaction_mask = \"***\"
     }
 
     #[test]
+    fn rate_limit_drops_excess() {
+        let p = engine_policy();
+        let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+        let msg = r#"{"method":"tools/call","params":{"name":"read_file","arguments":{}}}"#;
+        for seq in 1..=3 {
+            assert_eq!(
+                run(msg, &p, &mut rl, seq, 0).event.decision,
+                Decision::Forward
+            );
+        }
+        let out = run(msg, &p, &mut rl, 4, 0);
+        assert_eq!(out.event.decision, Decision::Drop);
+        assert!(out.event.reason.contains("rate limit"));
