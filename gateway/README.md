@@ -6,3 +6,7 @@ MCP JSON-RPC traffic.
 ## Build & test
 
 ```sh
+cargo build --release
+cargo test
+cargo clippy --all-targets -- -D warnings
+```
