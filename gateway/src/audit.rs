@@ -32,3 +32,16 @@ pub enum Decision {
     Drop,
     Error,
 }
+
+impl Decision {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Decision::Forward => "forward",
+            Decision::Deny => "deny",
+            Decision::Drop => "drop",
+            Decision::Error => "error",
+        }
+    }
+}
+
+/// A single audit event.
