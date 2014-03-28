@@ -45,3 +45,15 @@ impl Decision {
 }
 
 /// A single audit event.
+#[derive(Debug, Clone)]
+pub struct AuditEvent {
+    pub ts_ms: u64,
+    pub seq: u64,
+    pub decision: Decision,
+    pub reason: String,
+    pub method: Option<String>,
+    pub tool: Option<String>,
+    pub id: Option<String>,
+    pub bytes_in: usize,
+    pub bytes_out: usize,
+    pub redacted: Vec<String>,
