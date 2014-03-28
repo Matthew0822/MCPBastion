@@ -57,3 +57,16 @@ pub struct AuditEvent {
     pub bytes_in: usize,
     pub bytes_out: usize,
     pub redacted: Vec<String>,
+    pub balanced: bool,
+    pub max_depth: usize,
+}
+
+impl AuditEvent {
+    /// Serialise to a single-line JSON string (no trailing newline).
+    pub fn to_json(&self) -> String {
+        let mut s = String::with_capacity(256);
+        s.push('{');
+        push_num(&mut s, "ts_ms", self.ts_ms);
+        s.push(',');
+        push_num(&mut s, "seq", self.seq);
+        s.push(',');
