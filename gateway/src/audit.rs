@@ -83,3 +83,15 @@ impl AuditEvent {
         push_num(&mut s, "bytes_in", self.bytes_in as u64);
         s.push(',');
         push_num(&mut s, "bytes_out", self.bytes_out as u64);
+        s.push(',');
+        push_str_array(&mut s, "redacted", &self.redacted);
+        s.push(',');
+        push_bool(&mut s, "balanced", self.balanced);
+        s.push(',');
+        push_num(&mut s, "max_depth", self.max_depth as u64);
+        s.push('}');
+        s
+    }
+}
+
+fn push_key(s: &mut String, key: &str) {
