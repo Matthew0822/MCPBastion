@@ -95,3 +95,16 @@ impl AuditEvent {
 }
 
 fn push_key(s: &mut String, key: &str) {
+    s.push('"');
+    s.push_str(key);
+    s.push_str("\":");
+}
+
+fn push_num(s: &mut String, key: &str, v: u64) {
+    push_key(s, key);
+    s.push_str(&v.to_string());
+}
+
+fn push_bool(s: &mut String, key: &str, v: bool) {
+    push_key(s, key);
+    s.push_str(if v { "true" } else { "false" });
