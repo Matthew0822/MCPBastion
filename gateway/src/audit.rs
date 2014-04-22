@@ -172,3 +172,15 @@ mod tests {
             redacted: vec!["token".into()],
             balanced: true,
             max_depth: 3,
+        }
+    }
+
+    #[test]
+    fn serialises_expected_fields() {
+        let j = sample().to_json();
+        assert!(j.starts_with('{') && j.ends_with('}'));
+        assert!(j.contains(r#""decision":"forward""#));
+        assert!(j.contains(r#""method":"tools/call""#));
+        assert!(j.contains(r#""tool":"read_file""#));
+        assert!(j.contains(r#""redacted":["token"]"#));
+        assert!(j.contains(r#""balanced":true"#));
