@@ -47,3 +47,21 @@ pub struct StructureReport {
     pub balanced: bool,
     /// Maximum nesting depth encountered (objects + arrays).
     pub max_depth: usize,
+}
+
+/// Skip whitespace starting at `i`, returning the next non-whitespace index.
+fn skip_ws(bytes: &[u8], mut i: usize) -> usize {
+    while i < bytes.len() {
+        match bytes[i] {
+            b' ' | b'\t' | b'\r' | b'\n' => i += 1,
+            _ => break,
+        }
+    }
+    i
+}
+
+/// Given `i` pointing at the opening quote of a JSON string, return the index
+/// just past the closing quote, or `None` if the string is unterminated.
+///
+/// Handles `\"`, `\\`, and `\uXXXX` correctly so that an escaped quote does not
+/// prematurely end the string.
