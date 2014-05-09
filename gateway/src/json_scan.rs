@@ -156,3 +156,21 @@ pub fn decode_string(bytes: &[u8], start: usize, end: usize) -> Option<String> {
 fn decode_string_utf8(inner: &[u8]) -> Option<String> {
     let mut out = String::with_capacity(inner.len());
     let mut i = 0;
+    while i < inner.len() {
+        if inner[i] == b'\\' {
+            i += 1;
+            let esc = *inner.get(i)?;
+            match esc {
+                b'"' => out.push('"'),
+                b'\\' => out.push('\\'),
+                b'/' => out.push('/'),
+                b'b' => out.push('\u{0008}'),
+                b'f' => out.push('\u{000C}'),
+                b'n' => out.push('\n'),
+                b'r' => out.push('\r'),
+                b't' => out.push('\t'),
+                b'u' => {
+                    let cp = read_hex4(inner, i + 1)?;
+                    i += 4;
+                    if (0xD800..=0xDBFF).contains(&cp) {
+                        if inner.get(i + 1) == Some(&b'\\') && inner.get(i + 2) == Some(&b'u') {
