@@ -174,3 +174,22 @@ fn decode_string_utf8(inner: &[u8]) -> Option<String> {
                     i += 4;
                     if (0xD800..=0xDBFF).contains(&cp) {
                         if inner.get(i + 1) == Some(&b'\\') && inner.get(i + 2) == Some(&b'u') {
+                            let low = read_hex4(inner, i + 3)?;
+                            if (0xDC00..=0xDFFF).contains(&low) {
+                                let c = 0x10000 + ((cp - 0xD800) << 10) + (low - 0xDC00);
+                                out.push(char::from_u32(c)?);
+                                i += 6;
+                            } else {
+                                return None;
+                            }
+                        } else {
+                            return None;
+                        }
+                    } else {
+                        out.push(char::from_u32(cp)?);
+                    }
+                }
+                _ => return None,
+            }
+            i += 1;
+        } else {
