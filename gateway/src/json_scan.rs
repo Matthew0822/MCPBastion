@@ -193,3 +193,21 @@ fn decode_string_utf8(inner: &[u8]) -> Option<String> {
             }
             i += 1;
         } else {
+            // Decode one UTF-8 scalar.
+            let len = utf8_len(inner[i]);
+            if len == 0 || i + len > inner.len() {
+                return None;
+            }
+            let s = std::str::from_utf8(&inner[i..i + len]).ok()?;
+            out.push_str(s);
+            i += len;
+        }
+    }
+    Some(out)
+}
+
+fn utf8_len(b: u8) -> usize {
+    match b {
+        0x00..=0x7F => 1,
+        0xC0..=0xDF => 2,
+        0xE0..=0xEF => 3,
