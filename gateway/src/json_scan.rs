@@ -247,3 +247,22 @@ fn scan_value_end(bytes: &[u8], i: usize) -> Option<usize> {
                 match bytes[j] {
                     b',' | b'}' | b']' | b' ' | b'\t' | b'\r' | b'\n' => break,
                     _ => j += 1,
+                }
+            }
+            if j == i {
+                None
+            } else {
+                Some(j)
+            }
+        }
+    }
+}
+
+/// Scan a balanced container (`{...}` or `[...]`) starting at the opener, being
+/// careful to skip nested strings so their contents cannot unbalance the count.
+fn scan_container(bytes: &[u8], i: usize, open: u8, close: u8) -> Option<usize> {
+    debug_assert_eq!(bytes.get(i).copied(), Some(open));
+    let mut depth = 0usize;
+    let mut j = i;
+    while j < bytes.len() {
+        let b = bytes[j];
