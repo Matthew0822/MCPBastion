@@ -266,3 +266,21 @@ fn scan_container(bytes: &[u8], i: usize, open: u8, close: u8) -> Option<usize> 
     let mut j = i;
     while j < bytes.len() {
         let b = bytes[j];
+        if b == b'"' {
+            j = scan_string(bytes, j)?;
+            continue;
+        }
+        if b == open {
+            depth += 1;
+        } else if b == close {
+            depth -= 1;
+            if depth == 0 {
+                return Some(j + 1);
+            }
+        }
+        j += 1;
+    }
+    None
+}
+
+/// Locate the value associated with `key` inside the object that starts at
