@@ -302,3 +302,21 @@ pub fn find_key_in_object(bytes: &[u8], obj_start: usize, key: &str) -> Option<V
         // Expect a string key.
         if bytes.get(i) != Some(&b'"') {
             return None;
+        }
+        let key_end = scan_string(bytes, i)?;
+        let this_key = decode_string(bytes, i, key_end)?;
+        // Expect a colon.
+        let colon = skip_ws(bytes, key_end);
+        if bytes.get(colon) != Some(&b':') {
+            return None;
+        }
+        let val_start = skip_ws(bytes, colon + 1);
+        let val_end = scan_value_end(bytes, val_start)?;
+        if this_key == key {
+            let vs = skip_ws(bytes, val_start);
+            let kind = match bytes.get(vs) {
+                Some(b'"') => ValueKind::String,
+                Some(b'{') => ValueKind::Object,
+                Some(b'[') => ValueKind::Array,
+                _ => ValueKind::Scalar,
+            };
