@@ -339,3 +339,21 @@ pub fn find_key_in_object(bytes: &[u8], obj_start: usize, key: &str) -> Option<V
 }
 
 /// Convenience: find a top-level key's value in a message and, if it is a
+/// string, decode it.
+pub fn top_level_string(bytes: &[u8], key: &str) -> Option<String> {
+    let start = skip_ws(bytes, 0);
+    let span = find_key_in_object(bytes, start, key)?;
+    if span.kind != ValueKind::String {
+        return None;
+    }
+    decode_string(bytes, span.start, span.end)
+}
+
+/// Convenience: find a top-level key and return its raw byte span regardless of
+/// kind.
+pub fn top_level_span(bytes: &[u8], key: &str) -> Option<ValueSpan> {
+    let start = skip_ws(bytes, 0);
+    find_key_in_object(bytes, start, key)
+}
+
+/// Perform a cheap structural balance/depth check over the whole input. This is
