@@ -357,3 +357,21 @@ pub fn top_level_span(bytes: &[u8], key: &str) -> Option<ValueSpan> {
 }
 
 /// Perform a cheap structural balance/depth check over the whole input. This is
+/// used purely for audit metadata; it never rejects a message on its own.
+pub fn structure_report(bytes: &[u8]) -> StructureReport {
+    let mut depth: isize = 0;
+    let mut max_depth: usize = 0;
+    let mut i = 0;
+    let mut ok = true;
+    while i < bytes.len() {
+        match bytes[i] {
+            b'"' => match scan_string(bytes, i) {
+                Some(next) => {
+                    i = next;
+                    continue;
+                }
+                None => {
+                    ok = false;
+                    break;
+                }
+            },
