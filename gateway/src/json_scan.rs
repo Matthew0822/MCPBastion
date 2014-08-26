@@ -375,3 +375,22 @@ pub fn structure_report(bytes: &[u8]) -> StructureReport {
                     break;
                 }
             },
+            b'{' | b'[' => {
+                depth += 1;
+                if depth as usize > max_depth {
+                    max_depth = depth as usize;
+                }
+            }
+            b'}' | b']' => {
+                depth -= 1;
+                if depth < 0 {
+                    ok = false;
+                    break;
+                }
+            }
+            _ => {}
+        }
+        i += 1;
+    }
+    StructureReport {
+        balanced: ok && depth == 0,
