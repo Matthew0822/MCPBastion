@@ -412,3 +412,21 @@ mod tests {
     #[test]
     fn ignores_braces_inside_strings() {
         let s = br#"{"method":"a{b}c","note":"}}}"}"#;
+        assert_eq!(top_level_string(s, "method").as_deref(), Some("a{b}c"));
+        assert_eq!(top_level_string(s, "note").as_deref(), Some("}}}"));
+    }
+
+    #[test]
+    fn handles_escaped_quotes() {
+        let s = br#"{"method":"say \"hi\"","id":1}"#;
+        assert_eq!(top_level_string(s, "method").as_deref(), Some("say \"hi\""));
+    }
+
+    #[test]
+    fn nested_key_not_matched_at_top_level() {
+        let s = br#"{"params":{"method":"inner"},"method":"outer"}"#;
+        assert_eq!(top_level_string(s, "method").as_deref(), Some("outer"));
+    }
+
+    #[test]
+    fn finds_nested_object_then_key() {
