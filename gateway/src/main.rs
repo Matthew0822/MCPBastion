@@ -41,3 +41,18 @@ FLAGS:
     --policy   <FILE>   Path to the policy file (required)
     --audit    <FILE>   Write audit events to FILE (default: stderr)
     --stats             Emit a summary object at EOF
+    --epoch-ms <N>      Fixed base timestamp in ms (deterministic mode)
+    --help              Show this help
+    --version           Show version
+
+Reads newline-delimited JSON-RPC from stdin; forwards allowed, redacted
+messages to stdout; emits one JSON audit event per message to the audit sink.
+";
+
+struct Args {
+    policy_path: Option<String>,
+    audit_path: Option<String>,
+    stats: bool,
+    epoch_ms: Option<u64>,
+}
+
