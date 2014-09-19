@@ -160,3 +160,18 @@ fn main() -> ExitCode {
 
 /// Drive a whole session. Broken out so it is testable with in-memory buffers.
 fn run_session<R: Read>(
+    policy: &Policy,
+    reader: R,
+    out: &mut dyn Write,
+    audit: &mut dyn Write,
+    epoch_ms: Option<u64>,
+    stats: bool,
+) -> io::Result<()> {
+    let mut limiter = RateLimiter::new(policy.rate_limit, policy.rate_window_ms);
+    let start = Instant::now();
+    let base = epoch_ms.unwrap_or(0);
+
+    let mut seq: u64 = 0;
+    let mut counts: BTreeMap<&'static str, u64> = BTreeMap::new();
+
+    let buf = BufReader::new(reader);
