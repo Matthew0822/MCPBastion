@@ -101,3 +101,18 @@ fn main() -> ExitCode {
             eprintln!("error: {e}\n\n{USAGE}");
             return ExitCode::from(2);
         }
+    };
+
+    let policy_path = match &args.policy_path {
+        Some(p) => p,
+        None => {
+            eprintln!("error: --policy is required\n\n{USAGE}");
+            return ExitCode::from(2);
+        }
+    };
+
+    let policy_text = match fs::read_to_string(policy_path) {
+        Ok(t) => t,
+        Err(e) => {
+            eprintln!("error: cannot read policy '{policy_path}': {e}");
+            return ExitCode::from(3);
