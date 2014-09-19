@@ -145,3 +145,18 @@ fn main() -> ExitCode {
     let run = run_session(
         &policy,
         stdin.lock(),
+        &mut out,
+        audit_sink.as_mut(),
+        args.epoch_ms,
+        args.stats,
+    );
+
+    if let Err(e) = run {
+        eprintln!("error: {e}");
+        return ExitCode::from(1);
+    }
+    ExitCode::SUCCESS
+}
+
+/// Drive a whole session. Broken out so it is testable with in-memory buffers.
+fn run_session<R: Read>(
