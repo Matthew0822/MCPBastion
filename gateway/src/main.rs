@@ -131,3 +131,17 @@ fn main() -> ExitCode {
         Some(path) => match fs::File::create(path) {
             Ok(f) => Box::new(f),
             Err(e) => {
+                eprintln!("error: cannot create audit file '{path}': {e}");
+                return ExitCode::from(3);
+            }
+        },
+        None => Box::new(io::stderr()),
+    };
+
+    let stdin = io::stdin();
+    let stdout = io::stdout();
+    let mut out = stdout.lock();
+
+    let run = run_session(
+        &policy,
+        stdin.lock(),
