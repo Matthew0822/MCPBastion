@@ -116,3 +116,18 @@ fn main() -> ExitCode {
         Err(e) => {
             eprintln!("error: cannot read policy '{policy_path}': {e}");
             return ExitCode::from(3);
+        }
+    };
+    let policy = match Policy::parse(&policy_text) {
+        Ok(p) => p,
+        Err(e) => {
+            eprintln!("error: invalid policy '{policy_path}': {e}");
+            return ExitCode::from(3);
+        }
+    };
+
+    // Audit sink: file or stderr.
+    let mut audit_sink: Box<dyn Write> = match &args.audit_path {
+        Some(path) => match fs::File::create(path) {
+            Ok(f) => Box::new(f),
+            Err(e) => {
