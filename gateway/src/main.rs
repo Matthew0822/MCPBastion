@@ -86,3 +86,18 @@ fn parse_args() -> Result<Args, String> {
                 a.epoch_ms = Some(
                     v.parse::<u64>()
                         .map_err(|_| "--epoch-ms must be an integer")?,
+                );
+            }
+            other => return Err(format!("unknown argument: {other}")),
+        }
+    }
+    Ok(a)
+}
+
+fn main() -> ExitCode {
+    let args = match parse_args() {
+        Ok(a) => a,
+        Err(e) => {
+            eprintln!("error: {e}\n\n{USAGE}");
+            return ExitCode::from(2);
+        }
