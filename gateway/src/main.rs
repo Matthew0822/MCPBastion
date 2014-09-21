@@ -175,3 +175,18 @@ fn run_session<R: Read>(
     let mut counts: BTreeMap<&'static str, u64> = BTreeMap::new();
 
     let buf = BufReader::new(reader);
+    for line_res in buf.lines() {
+        let line = line_res?;
+        let trimmed = line.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        seq += 1;
+
+        // Timestamp: fixed base + monotonic offset. In deterministic mode
+        // (epoch given) we still add the elapsed offset so rate windows behave,
+        // but demos pin epoch_ms and feed small inputs so ordering is stable.
+        let now_ms = base + elapsed_ms(&start);
+
+        let processed = engine::process_line(trimmed.as_bytes(), policy, &mut limiter, seq, now_ms);
+
