@@ -62,3 +62,21 @@ pub struct Pattern {
     raw: String,
     /// Literal segments that must appear in order; `None` markers between them
     /// represent `*`. `anchored_start`/`anchored_end` say whether the pattern
+    /// touches the respective boundary.
+    parts: Vec<String>,
+    anchored_start: bool,
+    anchored_end: bool,
+}
+
+impl Pattern {
+    pub fn new(raw: &str) -> Pattern {
+        let anchored_start = !raw.starts_with('*');
+        let anchored_end = !raw.ends_with('*');
+        let parts: Vec<String> = raw
+            .split('*')
+            .filter(|s| !s.is_empty())
+            .map(|s| s.to_string())
+            .collect();
+        Pattern {
+            raw: raw.to_string(),
+            parts,
