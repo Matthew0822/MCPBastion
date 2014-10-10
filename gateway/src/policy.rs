@@ -99,3 +99,21 @@ impl Pattern {
         for (idx, part) in self.parts.iter().enumerate() {
             let is_first = idx == 0;
             let is_last = idx == self.parts.len() - 1;
+            if is_first && self.anchored_start {
+                if !text[pos..].starts_with(part.as_str()) {
+                    return false;
+                }
+                pos += part.len();
+            } else {
+                match text[pos..].find(part.as_str()) {
+                    Some(rel) => pos += rel + part.len(),
+                    None => return false,
+                }
+            }
+            if is_last && self.anchored_end {
+                // The final literal must land exactly at the end.
+                return pos == text.len();
+            }
+        }
+        true
+    }
