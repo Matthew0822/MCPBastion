@@ -80,3 +80,22 @@ impl Pattern {
         Pattern {
             raw: raw.to_string(),
             parts,
+            anchored_start,
+            anchored_end,
+        }
+    }
+
+    pub fn raw(&self) -> &str {
+        &self.raw
+    }
+
+    /// Does this pattern match the whole of `text`?
+    pub fn matches(&self, text: &str) -> bool {
+        if self.parts.is_empty() {
+            // Pattern was "" or "*" or "***" -> matches everything.
+            return true;
+        }
+        let mut pos = 0usize;
+        for (idx, part) in self.parts.iter().enumerate() {
+            let is_first = idx == 0;
+            let is_last = idx == self.parts.len() - 1;
