@@ -229,3 +229,22 @@ pub enum ToolDecision {
 }
 
 impl ToolDecision {
+    pub fn is_allow(&self) -> bool {
+        matches!(self, ToolDecision::Allow { .. })
+    }
+    pub fn rule(&self) -> &str {
+        match self {
+            ToolDecision::Allow { rule } | ToolDecision::Deny { rule } => rule,
+        }
+    }
+}
+
+fn strip_comment(line: &str) -> &str {
+    // A `#` outside of any quoting starts a comment. Our directives never
+    // contain `#` except possibly inside a quoted redaction_mask, which we
+    // handle by only splitting on the first unquoted `#`.
+    let bytes = line.as_bytes();
+    let mut in_quote = false;
+    for (i, &b) in bytes.iter().enumerate() {
+        match b {
+            b'"' => in_quote = !in_quote,
