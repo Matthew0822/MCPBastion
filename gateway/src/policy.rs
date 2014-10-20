@@ -155,3 +155,21 @@ impl Policy {
         for (idx, raw_line) in text.lines().enumerate() {
             let line_no = idx + 1;
             let line = strip_comment(raw_line).trim();
+            if line.is_empty() {
+                continue;
+            }
+            let (key, value) = split_directive(line);
+            let key = key.trim();
+            let value = value.trim();
+            match key {
+                "default" => match value {
+                    "allow" => p.default_allow = true,
+                    "deny" => p.default_allow = false,
+                    other => {
+                        return Err(PolicyError::BadValue {
+                            line: line_no,
+                            key: key.to_string(),
+                            value: other.to_string(),
+                        })
+                    }
+                },
