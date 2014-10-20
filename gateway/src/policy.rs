@@ -117,3 +117,22 @@ impl Pattern {
         }
         true
     }
+}
+
+/// Errors that can occur while loading a policy file.
+#[derive(Debug)]
+pub enum PolicyError {
+    UnknownDirective {
+        line: usize,
+        key: String,
+    },
+    BadValue {
+        line: usize,
+        key: String,
+        value: String,
+    },
+}
+
+impl std::fmt::Display for PolicyError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
