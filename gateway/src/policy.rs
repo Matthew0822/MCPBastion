@@ -210,3 +210,22 @@ impl Policy {
                 rule: "default allow".to_string(),
             }
         } else {
+            ToolDecision::Deny {
+                rule: "default deny".to_string(),
+            }
+        }
+    }
+
+    /// Should this argument key be redacted?
+    pub fn should_redact(&self, arg_key: &str) -> bool {
+        self.redact_args.iter().any(|p| p.matches(arg_key))
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ToolDecision {
+    Allow { rule: String },
+    Deny { rule: String },
+}
+
+impl ToolDecision {
