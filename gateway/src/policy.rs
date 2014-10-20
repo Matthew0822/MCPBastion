@@ -192,3 +192,21 @@ impl Policy {
         Ok(p)
     }
 
+    /// Decide whether a named tool is permitted. `deny` beats `allow`; unknown
+    /// tools fall back to `default_allow`.
+    pub fn decide_tool(&self, tool: &str) -> ToolDecision {
+        if let Some(pat) = self.deny_tools.iter().find(|p| p.matches(tool)) {
+            return ToolDecision::Deny {
+                rule: format!("deny_tool {}", pat.raw()),
+            };
+        }
+        if let Some(pat) = self.allow_tools.iter().find(|p| p.matches(tool)) {
+            return ToolDecision::Allow {
+                rule: format!("allow_tool {}", pat.raw()),
+            };
+        }
+        if self.default_allow {
+            ToolDecision::Allow {
+                rule: "default allow".to_string(),
+            }
+        } else {
