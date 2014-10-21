@@ -248,3 +248,21 @@ fn strip_comment(line: &str) -> &str {
     for (i, &b) in bytes.iter().enumerate() {
         match b {
             b'"' => in_quote = !in_quote,
+            b'#' if !in_quote => return &line[..i],
+            _ => {}
+        }
+    }
+    line
+}
+
+fn split_directive(line: &str) -> (&str, &str) {
+    if let Some(eq) = line.find('=') {
+        (&line[..eq], &line[eq + 1..])
+    } else if let Some(sp) = line.find(char::is_whitespace) {
+        (&line[..sp], &line[sp + 1..])
+    } else {
+        (line, "")
+    }
+}
+
+fn unquote(value: &str) -> String {
