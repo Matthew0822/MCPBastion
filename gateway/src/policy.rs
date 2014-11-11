@@ -303,3 +303,22 @@ fn parse_u64(value: &str, key: &str, line: usize) -> Result<u64, PolicyError> {
 #[derive(Debug)]
 pub struct RateLimiter {
     limit: u32,
+    window_ms: u64,
+    /// Timestamps (ms since an arbitrary epoch) of recent allowed messages.
+    events: Vec<u64>,
+}
+
+impl RateLimiter {
+    pub fn new(limit: u32, window_ms: u64) -> RateLimiter {
+        RateLimiter {
+            limit,
+            window_ms,
+            events: Vec::new(),
+        }
+    }
+
+    /// Returns `true` if an event at `now_ms` is within the limit. When
+    /// accepted, the event is recorded. `limit == 0` means unlimited.
+    pub fn check(&mut self, now_ms: u64) -> bool {
+        if self.limit == 0 {
+            return true;
