@@ -341,3 +341,21 @@ impl RateLimiter {
 }
 
 /// Tracks per-tool statistics reported by the counters map for auditing.
+pub type ToolCounts = HashMap<String, u64>;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pattern_exact() {
+        let p = Pattern::new("read_file");
+        assert!(p.matches("read_file"));
+        assert!(!p.matches("read_files"));
+        assert!(!p.matches("xread_file"));
+    }
+
+    #[test]
+    fn pattern_prefix() {
+        let p = Pattern::new("shell.*");
+        assert!(p.matches("shell.exec"));
