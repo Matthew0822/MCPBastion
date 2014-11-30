@@ -378,3 +378,22 @@ mod tests {
         assert!(p.matches("auth_token"));
         assert!(!p.matches("token_value"));
     }
+
+    #[test]
+    fn parse_basic_policy() {
+        let text = "\
+# sample
+default = deny
+allow_tool = read_file
+allow_tool = list_dir
+deny_tool = shell.*
+redact_arg = *token*
+max_bytes = 1024
+rate_limit = 5
+rate_window_ms = 2000
+redaction_mask = \"[hidden]\"
+";
+        let p = Policy::parse(text).unwrap();
+        assert!(!p.default_allow);
+        assert_eq!(p.allow_tools.len(), 2);
+        assert_eq!(p.deny_tools.len(), 1);
