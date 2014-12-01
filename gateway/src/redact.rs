@@ -57,3 +57,18 @@ pub fn redact_message(message: &[u8], policy: &Policy) -> RedactionResult {
     };
 
     if policy.redact_args.is_empty() {
+        return no_change();
+    }
+
+    // Locate params (object).
+    let params = match json_scan::top_level_span(message, "params") {
+        Some(s) if s.kind == ValueKind::Object => s,
+        _ => return no_change(),
+    };
+    // Locate params.arguments (object).
+    let args = match json_scan::find_key_in_object(message, params.start, "arguments") {
+        Some(s) if s.kind == ValueKind::Object => s,
+        _ => return no_change(),
+    };
+
+    // Collect the (key, value-span) members of the arguments object that match
