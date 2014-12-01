@@ -43,3 +43,17 @@ pub fn json_encode_string(s: &str) -> String {
                 out.push_str(&format!("\\u{:04x}", c as u32));
             }
             c => out.push(c),
+        }
+    }
+    out.push('"');
+    out
+}
+
+/// Apply redaction to `message` according to `policy`.
+pub fn redact_message(message: &[u8], policy: &Policy) -> RedactionResult {
+    let no_change = || RedactionResult {
+        bytes: message.to_vec(),
+        redacted_keys: Vec::new(),
+    };
+
+    if policy.redact_args.is_empty() {
