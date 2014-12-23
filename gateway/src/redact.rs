@@ -102,3 +102,17 @@ pub fn redact_message(message: &[u8], policy: &Policy) -> RedactionResult {
         redacted_keys,
     }
 }
+
+struct Member {
+    key: String,
+    value_start: usize,
+    value_end: usize,
+}
+
+/// Enumerate the immediate members of the object beginning at `obj_start`.
+fn object_members(bytes: &[u8], obj_start: usize) -> Vec<Member> {
+    let mut out = Vec::new();
+    let mut i = skip_ws(bytes, obj_start);
+    if bytes.get(i) != Some(&b'{') {
+        return out;
+    }
