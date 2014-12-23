@@ -116,3 +116,18 @@ fn object_members(bytes: &[u8], obj_start: usize) -> Vec<Member> {
     if bytes.get(i) != Some(&b'{') {
         return out;
     }
+    i = skip_ws(bytes, i + 1);
+    if bytes.get(i) == Some(&b'}') {
+        return out;
+    }
+    loop {
+        if bytes.get(i) != Some(&b'"') {
+            return out;
+        }
+        let key_end = match scan_string(bytes, i) {
+            Some(e) => e,
+            None => return out,
+        };
+        let key = match json_scan::decode_string(bytes, i, key_end) {
+            Some(k) => k,
+            None => return out,
