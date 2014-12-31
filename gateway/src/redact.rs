@@ -205,3 +205,17 @@ fn scan_value_end(bytes: &[u8], i: usize) -> Option<usize> {
             } else {
                 Some(j)
             }
+        }
+    }
+}
+
+fn scan_container(bytes: &[u8], i: usize, open: u8, close: u8) -> Option<usize> {
+    let mut depth = 0usize;
+    let mut j = i;
+    while j < bytes.len() {
+        let b = bytes[j];
+        if b == b'"' {
+            j = scan_string(bytes, j)?;
+            continue;
+        }
+        if b == open {
