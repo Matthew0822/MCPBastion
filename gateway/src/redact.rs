@@ -175,3 +175,18 @@ fn scan_string(bytes: &[u8], i: usize) -> Option<usize> {
             b'\\' => {
                 if bytes.get(j + 1) == Some(&b'u') {
                     j += 6;
+                } else {
+                    j += 2;
+                }
+            }
+            b'"' => return Some(j + 1),
+            _ => j += 1,
+        }
+    }
+    None
+}
+
+fn scan_value_end(bytes: &[u8], i: usize) -> Option<usize> {
+    let i = skip_ws(bytes, i);
+    match bytes.get(i)? {
+        b'"' => scan_string(bytes, i),
