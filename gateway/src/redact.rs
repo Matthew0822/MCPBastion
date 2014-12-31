@@ -160,3 +160,18 @@ fn object_members(bytes: &[u8], obj_start: usize) -> Vec<Member> {
 
 fn skip_ws(bytes: &[u8], mut i: usize) -> usize {
     while i < bytes.len() {
+        match bytes[i] {
+            b' ' | b'\t' | b'\r' | b'\n' => i += 1,
+            _ => break,
+        }
+    }
+    i
+}
+
+fn scan_string(bytes: &[u8], i: usize) -> Option<usize> {
+    let mut j = i + 1;
+    while j < bytes.len() {
+        match bytes[j] {
+            b'\\' => {
+                if bytes.get(j + 1) == Some(&b'u') {
+                    j += 6;
