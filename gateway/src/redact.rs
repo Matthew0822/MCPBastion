@@ -146,3 +146,17 @@ fn object_members(bytes: &[u8], obj_start: usize) -> Vec<Member> {
             value_start: val_start,
             value_end: val_end,
         });
+        let after = skip_ws(bytes, val_end);
+        match bytes.get(after) {
+            Some(b',') => i = skip_ws(bytes, after + 1),
+            _ => return out,
+        }
+    }
+}
+
+// The following helpers mirror those in `json_scan` but are kept private here
+// so `json_scan` can expose a minimal public surface. They are exercised via
+// the integration tests below and in `json_scan`'s own unit tests.
+
+fn skip_ws(bytes: &[u8], mut i: usize) -> usize {
+    while i < bytes.len() {
