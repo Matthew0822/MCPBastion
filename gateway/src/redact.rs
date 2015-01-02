@@ -219,3 +219,18 @@ fn scan_container(bytes: &[u8], i: usize, open: u8, close: u8) -> Option<usize> 
             continue;
         }
         if b == open {
+            depth += 1;
+        } else if b == close {
+            depth -= 1;
+            if depth == 0 {
+                return Some(j + 1);
+            }
+        }
+        j += 1;
+    }
+    None
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
