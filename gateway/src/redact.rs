@@ -234,3 +234,18 @@ fn scan_container(bytes: &[u8], i: usize, open: u8, close: u8) -> Option<usize> 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn policy_with(redacts: &[&str]) -> Policy {
+        let mut text = String::from("default = allow\n");
+        for r in redacts {
+            text.push_str(&format!("redact_arg = {r}\n"));
+        }
+        text.push_str("redaction_mask = \"***\"\n");
+        Policy::parse(&text).unwrap()
+    }
+
+    #[test]
+    fn redacts_matching_string_arg() {
+        let msg = br#"{"method":"tools/call","params":{"name":"login","arguments":{"user":"alice","token":"secret123"}}}"#;
+        let p = policy_with(&["token"]);
+        let r = redact_message(msg, &p);
