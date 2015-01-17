@@ -8,3 +8,10 @@ use mcp_bastion::engine::process_line;
 use mcp_bastion::policy::{Policy, RateLimiter};
 
 fn policy() -> Policy {
+    Policy::parse(
+        "\
+default = deny
+allow_tool = read_file
+allow_tool = list_dir
+deny_tool = shell.*
+deny_tool = fs.delete
