@@ -23,3 +23,10 @@ rate_limit = 5
 rate_window_ms = 1000
 redaction_mask = \"[REDACTED]\"
 ",
+    )
+    .unwrap()
+}
+
+#[test]
+fn full_allow_flow_with_redaction() {
+    let p = policy();
