@@ -52,3 +52,10 @@ fn deny_wildcard_tool() {
     assert_eq!(out.event.decision, Decision::Deny);
     assert!(out.forward.is_none());
 }
+
+#[test]
+fn oversize_message_dropped() {
+    let mut p = policy();
+    p.max_bytes = 32;
+    let mut rl = RateLimiter::new(p.rate_limit, p.rate_window_ms);
+    let msg = br#"{"method":"tools/call","params":{"name":"read_file","arguments":{"path":"/very/long/path/that/exceeds"}}}"#;
