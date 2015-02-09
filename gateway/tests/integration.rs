@@ -73,3 +73,11 @@ fn rate_limit_enforced_across_calls() {
     for seq in 1..=10 {
         let out = process_line(msg, &p, &mut rl, seq, 0);
         match out.event.decision {
+            Decision::Forward => forwarded += 1,
+            Decision::Drop => dropped += 1,
+            other => panic!("unexpected decision {other:?}"),
+        }
+    }
+    assert_eq!(forwarded, 5);
+    assert_eq!(dropped, 5);
+}
