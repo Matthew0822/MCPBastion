@@ -81,3 +81,10 @@ fn rate_limit_enforced_across_calls() {
     assert_eq!(forwarded, 5);
     assert_eq!(dropped, 5);
 }
+
+#[test]
+fn structural_metadata_recorded() {
+    let p = policy();
+    let mut rl = RateLimiter::new(0, 1000);
+    let msg =
+        br#"{"method":"tools/call","params":{"name":"read_file","arguments":{"a":{"b":{"c":1}}}}}"#;
