@@ -397,3 +397,57 @@ redaction_mask = \"[hidden]\"
         assert!(!p.default_allow);
         assert_eq!(p.allow_tools.len(), 2);
         assert_eq!(p.deny_tools.len(), 1);
+        assert_eq!(p.max_bytes, 1024);
+        assert_eq!(p.rate_limit, 5);
+        assert_eq!(p.rate_window_ms, 2000);
+        assert_eq!(p.redaction_mask, "[hidden]");
+    }
+
+    #[test]
+    fn deny_beats_allow() {
+        let p = Policy::parse("allow_tool = shell.exec\ndeny_tool = shell.*\n").unwrap();
+        let d = p.decide_tool("shell.exec");
+        assert!(!d.is_allow());
+    }
+
+    #[test]
+    fn default_deny_unknown_tool() {
+        let p = Policy::parse("default = deny\nallow_tool = read_file\n").unwrap();
+        assert!(!p.decide_tool("delete_all").is_allow());
+        assert!(p.decide_tool("read_file").is_allow());
+    }
+
+    #[test]
+    fn unknown_directive_errors() {
+        let err = Policy::parse("wat = 1\n").unwrap_err();
+        matches!(err, PolicyError::UnknownDirective { .. });
+    }
+
+    #[test]
+    fn bad_number_errors() {
+        let err = Policy::parse("max_bytes = notanumber\n").unwrap_err();
+        matches!(err, PolicyError::BadValue { .. });
+    }
+
+    #[test]
+    fn rate_limiter_windowing() {
+        let mut rl = RateLimiter::new(2, 1000);
+        assert!(rl.check(0));
+        assert!(rl.check(100));
+        assert!(!rl.check(200)); // third within window rejected
+        assert!(rl.check(1200)); // first has aged out
+    }
+
+    #[test]
+    fn rate_limiter_unlimited() {
+        let mut rl = RateLimiter::new(0, 1000);
+        for t in 0..100 {
+            assert!(rl.check(t));
+        }
+    }
+
+    #[test]
+    fn comment_stripping_respects_quotes() {
+        let p = Policy::parse("redaction_mask = \"a#b\" # trailing\n").unwrap();
+        assert_eq!(p.redaction_mask, "a#b");
+    }
