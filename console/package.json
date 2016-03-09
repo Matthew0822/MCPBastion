@@ -6,3 +6,6 @@
   "type": "module",
   "bin": {
     "mcp-bastion-console": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
