@@ -16,3 +16,15 @@ const DECISIONS: readonly Decision[] = ["forward", "deny", "drop", "error"];
 export interface AuditEvent {
   readonly tsMs: number;
   readonly seq: number;
+  readonly decision: Decision;
+  readonly reason: string;
+  readonly method: string | null;
+  readonly tool: string | null;
+  readonly id: string | null;
+  readonly bytesIn: number;
+  readonly bytesOut: number;
+  readonly redacted: readonly string[];
+  readonly balanced: boolean;
+  readonly maxDepth: number;
+}
+
