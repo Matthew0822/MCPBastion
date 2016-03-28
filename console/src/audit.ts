@@ -52,3 +52,14 @@ function asNumber(o: Record<string, unknown>, key: string): number {
   const v = o[key];
   if (typeof v !== "number" || !Number.isFinite(v)) {
     throw new Error(`field '${key}' must be a finite number`);
+  }
+  return v;
+}
+
+function asBool(o: Record<string, unknown>, key: string): boolean {
+  const v = o[key];
+  if (typeof v !== "boolean") {
+    throw new Error(`field '${key}' must be a boolean`);
+  }
+  return v;
+}
