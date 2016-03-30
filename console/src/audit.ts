@@ -87,3 +87,15 @@ function asStringArray(o: Record<string, unknown>, key: string): string[] {
     throw new Error(`field '${key}' must be an array`);
   }
   const out: string[] = [];
+  for (const item of v) {
+    if (typeof item !== "string") {
+      throw new Error(`field '${key}' must contain only strings`);
+    }
+    out.push(item);
+  }
+  return out;
+}
+
+function asDecision(o: Record<string, unknown>, key: string): Decision {
+  const v = asString(o, key);
+  if (!(DECISIONS as readonly string[]).includes(v)) {
