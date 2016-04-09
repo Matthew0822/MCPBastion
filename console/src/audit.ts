@@ -111,3 +111,14 @@ export function parseLine(raw: string, lineNo: number): ParsedLine {
     value = JSON.parse(raw);
   } catch (err) {
     return {
+      kind: "error",
+      line: lineNo,
+      message: `invalid JSON: ${(err as Error).message}`,
+    };
+  }
+  if (!isRecord(value)) {
+    return { kind: "error", line: lineNo, message: "line is not a JSON object" };
+  }
+  try {
+    if (value["summary"] === true) {
+      return {
