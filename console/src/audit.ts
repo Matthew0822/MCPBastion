@@ -146,3 +146,15 @@ export function parseLine(raw: string, lineNo: number): ParsedLine {
       redacted: asStringArray(value, "redacted"),
       balanced: asBool(value, "balanced"),
       maxDepth: asNumber(value, "max_depth"),
+    };
+    return { kind: "event", event };
+  } catch (err) {
+    return { kind: "error", line: lineNo, message: (err as Error).message };
+  }
+}
+
+/** Result of parsing a whole audit log. */
+export interface ParseReport {
+  readonly events: AuditEvent[];
+  readonly summary: SummaryLine | null;
+  readonly errors: { readonly line: number; readonly message: string }[];
