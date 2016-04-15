@@ -122,3 +122,15 @@ export function parseLine(raw: string, lineNo: number): ParsedLine {
   try {
     if (value["summary"] === true) {
       return {
+        kind: "summary",
+        summary: {
+          summary: true,
+          total: asNumber(value, "total"),
+          forward: asNumber(value, "forward"),
+          deny: asNumber(value, "deny"),
+          drop: asNumber(value, "drop"),
+          error: asNumber(value, "error"),
+        },
+      };
+    }
+    const event: AuditEvent = {
