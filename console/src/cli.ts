@@ -36,3 +36,14 @@ USAGE:
   mcp-bastion-console --help
 
 D is one of: forward | deny | drop | error
+`;
+
+interface Flags {
+  positional: string[];
+  json: boolean;
+  decision: Decision | undefined;
+  tool: string | undefined;
+}
+
+function parseFlags(argv: string[]): Flags {
+  const flags: Flags = { positional: [], json: false, decision: undefined, tool: undefined };
