@@ -47,3 +47,14 @@ interface Flags {
 
 function parseFlags(argv: string[]): Flags {
   const flags: Flags = { positional: [], json: false, decision: undefined, tool: undefined };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i]!;
+    if (a === "--json") flags.json = true;
+    else if (a === "--decision") {
+      const v = argv[++i];
+      if (v === undefined || !VALID_DECISIONS.includes(v as Decision)) {
+        fail(`--decision must be one of ${VALID_DECISIONS.join(", ")}`);
+      }
+      flags.decision = v as Decision;
+    } else if (a === "--tool") {
+      const v = argv[++i];
