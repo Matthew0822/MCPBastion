@@ -101,3 +101,14 @@ function cmdReport(flags: Flags): number {
   } else {
     process.stdout.write(renderReport(agg) + "\n");
     const filtered = filterEvents(report.events, buildFilter(flags));
+    if (flags.decision !== undefined || flags.tool !== undefined) {
+      process.stdout.write("\nFiltered events\n---------------\n");
+      for (const ev of filtered) {
+        process.stdout.write(
+          `  #${ev.seq} ${ev.decision} ${ev.tool ?? ev.method ?? "?"} — ${ev.reason}\n`,
+        );
+      }
+    }
+    if (report.errors.length > 0) {
+      process.stdout.write(`\nParse errors (${report.errors.length}):\n`);
+      for (const e of report.errors) {
