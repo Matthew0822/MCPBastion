@@ -112,3 +112,13 @@ function cmdReport(flags: Flags): number {
     if (report.errors.length > 0) {
       process.stdout.write(`\nParse errors (${report.errors.length}):\n`);
       for (const e of report.errors) {
+        process.stdout.write(`  line ${e.line}: ${e.message}\n`);
+      }
+    }
+  }
+  // Non-zero exit if the gateway summary disagrees with our recount.
+  return agg.summaryMatches === false ? 1 : 0;
+}
+
+function cmdTail(flags: Flags): number {
+  const path = flags.positional[0];
