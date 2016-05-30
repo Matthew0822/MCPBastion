@@ -122,3 +122,14 @@ function cmdReport(flags: Flags): number {
 
 function cmdTail(flags: Flags): number {
   const path = flags.positional[0];
+  if (path === undefined) fail("tail requires an <audit.jsonl> path");
+  const body = readFileOrFail(path);
+  const report = parseAuditLog(body);
+  const events = filterEvents(report.events, buildFilter(flags));
+  for (const ev of events) {
+    const redaction = ev.redacted.length > 0 ? ` [redacted: ${ev.redacted.join(",")}]` : "";
+    process.stdout.write(
+      `#${ev.seq} ${ev.decision.toUpperCase().padEnd(7)} ${(ev.tool ?? ev.method ?? "-").padEnd(16)} ${ev.reason}${redaction}\n`,
+    );
+  }
+  return 0;
