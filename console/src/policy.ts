@@ -20,3 +20,15 @@ export interface ParsedPolicy {
   redactionMask: string;
 }
 
+export interface PolicyIssue {
+  readonly line: number;
+  readonly severity: "error" | "warning";
+  readonly message: string;
+}
+
+export interface PolicyParseResult {
+  readonly policy: ParsedPolicy;
+  readonly issues: readonly PolicyIssue[];
+}
+
+const KNOWN_DIRECTIVES = new Set([
