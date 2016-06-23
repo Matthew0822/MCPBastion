@@ -58,3 +58,16 @@ function defaults(): ParsedPolicy {
 }
 
 function stripComment(line: string): string {
+  let inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') inQuote = !inQuote;
+    else if (c === "#" && !inQuote) return line.slice(0, i);
+  }
+  return line;
+}
+
+function splitDirective(line: string): [string, string] {
+  const eq = line.indexOf("=");
+  if (eq >= 0) return [line.slice(0, eq).trim(), line.slice(eq + 1).trim()];
+  const sp = line.search(/\s/);
