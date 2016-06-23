@@ -45,3 +45,16 @@ const KNOWN_DIRECTIVES = new Set([
 
 function defaults(): ParsedPolicy {
   return {
+    defaultAllow: false,
+    allowTools: [],
+    denyTools: [],
+    redactArgs: [],
+    maxBytes: 262144,
+    maxDepth: 64,
+    rateLimit: 0,
+    rateWindowMs: 1000,
+    redactionMask: "«redacted»",
+  };
+}
+
+function stripComment(line: string): string {
