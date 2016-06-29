@@ -84,3 +84,16 @@ function unquote(v: string): string {
 }
 
 function parseIntStrict(v: string): number | null {
+  if (!/^\d+$/.test(v)) return null;
+  const n = Number(v);
+  return Number.isSafeInteger(n) ? n : null;
+}
+
+/** Parse policy text, collecting issues without throwing. */
+export function parsePolicy(text: string): PolicyParseResult {
+  const policy = defaults();
+  const issues: PolicyIssue[] = [];
+  const lines = text.split(/\r?\n/);
+
+  for (let i = 0; i < lines.length; i++) {
+    const lineNo = i + 1;
