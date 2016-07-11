@@ -110,3 +110,16 @@ export function parsePolicy(text: string): PolicyParseResult {
       continue;
     }
 
+    switch (key) {
+      case "default":
+        if (value === "allow") policy.defaultAllow = true;
+        else if (value === "deny") policy.defaultAllow = false;
+        else
+          issues.push({
+            line: lineNo,
+            severity: "error",
+            message: `default must be 'allow' or 'deny', got '${value}'`,
+          });
+        break;
+      case "allow_tool":
+        policy.allowTools.push(value);
