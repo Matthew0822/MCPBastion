@@ -161,3 +161,16 @@ export function parsePolicy(text: string): PolicyParseResult {
           });
         else policy.rateWindowMs = n;
         break;
+      }
+      case "redaction_mask":
+        policy.redactionMask = unquote(value);
+        break;
+    }
+  }
+
+  // Cross-directive lints.
+  for (const allow of policy.allowTools) {
+    if (policy.denyTools.some((d) => globMatch(d, allow))) {
+      issues.push({
+        line: 0,
+        severity: "warning",
