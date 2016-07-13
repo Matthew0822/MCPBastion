@@ -148,3 +148,16 @@ export function parsePolicy(text: string): PolicyParseResult {
         const n = parseIntStrict(value);
         if (n === null)
           issues.push({ line: lineNo, severity: "error", message: `rate_limit must be an integer` });
+        else policy.rateLimit = n;
+        break;
+      }
+      case "rate_window_ms": {
+        const n = parseIntStrict(value);
+        if (n === null)
+          issues.push({
+            line: lineNo,
+            severity: "error",
+            message: `rate_window_ms must be an integer`,
+          });
+        else policy.rateWindowMs = n;
+        break;
