@@ -123,3 +123,15 @@ export function parsePolicy(text: string): PolicyParseResult {
         break;
       case "allow_tool":
         policy.allowTools.push(value);
+        break;
+      case "deny_tool":
+        policy.denyTools.push(value);
+        break;
+      case "redact_arg":
+        policy.redactArgs.push(value);
+        break;
+      case "max_bytes": {
+        const n = parseIntStrict(value);
+        if (n === null)
+          issues.push({ line: lineNo, severity: "error", message: `max_bytes must be an integer` });
+        else policy.maxBytes = n;
