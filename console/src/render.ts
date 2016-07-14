@@ -21,3 +21,12 @@ function pad(s: string, n: number): string {
 
 function padLeft(s: string, n: number): string {
   return s.length >= n ? s : " ".repeat(n - s.length) + s;
+}
+
+/** Render the aggregate as a human-readable multi-line report. */
+export function renderReport(agg: Aggregate): string {
+  const lines: string[] = [];
+  lines.push("MCP Bastion — Audit Report");
+  lines.push("==========================");
+  lines.push("");
+  lines.push(`Total messages : ${agg.total}`);
