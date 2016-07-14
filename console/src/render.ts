@@ -12,3 +12,12 @@ import type { ParsedPolicy, PolicyIssue } from "./policy.js";
 function bar(count: number, max: number, width = 24): string {
   if (max <= 0) return "";
   const filled = Math.round((count / max) * width);
+  return "#".repeat(filled) + ".".repeat(Math.max(0, width - filled));
+}
+
+function pad(s: string, n: number): string {
+  return s.length >= n ? s : s + " ".repeat(n - s.length);
+}
+
+function padLeft(s: string, n: number): string {
+  return s.length >= n ? s : " ".repeat(n - s.length) + s;
