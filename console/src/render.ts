@@ -39,3 +39,12 @@ export function renderReport(agg: Aggregate): string {
   }
   lines.push("");
 
+  lines.push("Decisions");
+  lines.push("---------");
+  const decMax = Math.max(
+    agg.counts.forward,
+    agg.counts.deny,
+    agg.counts.drop,
+    agg.counts.error,
+    1,
+  );
