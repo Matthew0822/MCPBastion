@@ -30,3 +30,12 @@ export function renderReport(agg: Aggregate): string {
   lines.push("==========================");
   lines.push("");
   lines.push(`Total messages : ${agg.total}`);
+  lines.push(`Bytes in/out   : ${agg.bytesIn} / ${agg.bytesOut}`);
+  lines.push(`Redaction events: ${agg.redactionEvents}`);
+  lines.push(`Unbalanced msgs : ${agg.unbalanced}`);
+  lines.push(`Max depth seen  : ${agg.maxDepthSeen}`);
+  if (agg.summaryMatches !== null) {
+    lines.push(`Gateway summary : ${agg.summaryMatches ? "MATCHES" : "MISMATCH!"}`);
+  }
+  lines.push("");
+
