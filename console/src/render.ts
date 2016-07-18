@@ -66,3 +66,12 @@ export function renderReport(agg: Aggregate): string {
     );
     for (const t of agg.tools) {
       lines.push(
+        `  ${pad(t.tool, 20)} ${padLeft(String(t.total), 6)} ${padLeft(String(t.forwarded), 5)} ${padLeft(String(t.denied), 5)} ${padLeft(String(t.dropped), 5)}`,
+      );
+    }
+    lines.push("");
+  }
+
+  if (agg.redactedKeyCounts.size > 0) {
+    lines.push("Redacted argument keys");
+    lines.push("----------------------");
