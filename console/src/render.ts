@@ -75,3 +75,12 @@ export function renderReport(agg: Aggregate): string {
   if (agg.redactedKeyCounts.size > 0) {
     lines.push("Redacted argument keys");
     lines.push("----------------------");
+    for (const [key, count] of sortedEntries(agg.redactedKeyCounts)) {
+      lines.push(`  ${pad(key, 24)} ${padLeft(String(count), 5)}`);
+    }
+    lines.push("");
+  }
+
+  lines.push("Top reasons");
+  lines.push("-----------");
+  for (const [reason, count] of sortedEntries(agg.reasonCounts).slice(0, 10)) {
