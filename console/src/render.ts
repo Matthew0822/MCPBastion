@@ -57,3 +57,12 @@ export function renderReport(agg: Aggregate): string {
     lines.push(`  ${pad(name, 8)} ${padLeft(String(count), 5)} ${bar(count, decMax)}`);
   }
   lines.push("");
+
+  if (agg.tools.length > 0) {
+    lines.push("Per-tool activity");
+    lines.push("-----------------");
+    lines.push(
+      `  ${pad("tool", 20)} ${padLeft("total", 6)} ${padLeft("fwd", 5)} ${padLeft("deny", 5)} ${padLeft("drop", 5)}`,
+    );
+    for (const t of agg.tools) {
+      lines.push(
