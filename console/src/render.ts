@@ -84,3 +84,12 @@ export function renderReport(agg: Aggregate): string {
   lines.push("Top reasons");
   lines.push("-----------");
   for (const [reason, count] of sortedEntries(agg.reasonCounts).slice(0, 10)) {
+    lines.push(`  ${padLeft(String(count), 5)}  ${reason}`);
+  }
+
+  return lines.join("\n");
+}
+
+/** Render a compact machine-readable JSON aggregate. */
+export function renderReportJson(agg: Aggregate): string {
+  const obj = {
