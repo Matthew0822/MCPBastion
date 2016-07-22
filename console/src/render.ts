@@ -102,3 +102,12 @@ export function renderReportJson(agg: Aggregate): string {
     maxDepthSeen: agg.maxDepthSeen,
     summaryMatches: agg.summaryMatches,
     redactedKeyCounts: Object.fromEntries(agg.redactedKeyCounts),
+    reasonCounts: Object.fromEntries(agg.reasonCounts),
+    tools: agg.tools,
+  };
+  return JSON.stringify(obj, null, 2);
+}
+
+/** Render a policy summary with any lint issues. */
+export function renderPolicy(policy: ParsedPolicy, issues: readonly PolicyIssue[]): string {
+  const lines: string[] = [];
