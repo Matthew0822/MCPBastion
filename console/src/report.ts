@@ -12,3 +12,13 @@ export interface DecisionCounts {
   deny: number;
   drop: number;
   error: number;
+}
+
+export interface ToolStat {
+  readonly tool: string;
+  readonly total: number;
+  readonly forwarded: number;
+  readonly denied: number;
+  readonly dropped: number;
+}
+
