@@ -93,3 +93,12 @@ export function renderReport(agg: Aggregate): string {
 /** Render a compact machine-readable JSON aggregate. */
 export function renderReportJson(agg: Aggregate): string {
   const obj = {
+    total: agg.total,
+    counts: agg.counts,
+    bytesIn: agg.bytesIn,
+    bytesOut: agg.bytesOut,
+    redactionEvents: agg.redactionEvents,
+    unbalanced: agg.unbalanced,
+    maxDepthSeen: agg.maxDepthSeen,
+    summaryMatches: agg.summaryMatches,
+    redactedKeyCounts: Object.fromEntries(agg.redactedKeyCounts),
