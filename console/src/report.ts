@@ -71,3 +71,13 @@ export function aggregate(report: ParseReport): Aggregate {
     }
     reasonCounts.set(ev.reason, (reasonCounts.get(ev.reason) ?? 0) + 1);
 
+    if (ev.tool !== null) {
+      const prev =
+        toolAgg.get(ev.tool) ??
+        ({
+          tool: ev.tool,
+          total: 0,
+          forwarded: 0,
+          denied: 0,
+          dropped: 0,
+          mutable: true,
