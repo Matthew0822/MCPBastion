@@ -111,3 +111,13 @@ export function aggregate(report: ParseReport): Aggregate {
   return {
     total: report.events.length,
     counts,
+    bytesIn,
+    bytesOut,
+    redactionEvents,
+    redactedKeyCounts,
+    reasonCounts,
+    tools,
+    unbalanced,
+    maxDepthSeen,
+    summaryMatches,
+  };
