@@ -101,3 +101,13 @@ export function aggregate(report: ParseReport): Aggregate {
   if (report.summary) {
     const s = report.summary;
     summaryMatches =
+      s.total === report.events.length &&
+      s.forward === counts.forward &&
+      s.deny === counts.deny &&
+      s.drop === counts.drop &&
+      s.error === counts.error;
+  }
+
+  return {
+    total: report.events.length,
+    counts,
