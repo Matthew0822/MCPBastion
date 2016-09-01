@@ -30,3 +30,12 @@ test("parseLine parses a valid event", () => {
 
 test("parseLine parses the summary line", () => {
   const r = parseLine('{"summary":true,"total":3,"forward":2,"deny":1,"drop":0,"error":0}', 1);
+  assert.equal(r.kind, "summary");
+  if (r.kind === "summary") assert.equal(r.summary.total, 3);
+});
+
+test("parseLine reports invalid JSON as error", () => {
+  const r = parseLine("{not json", 5);
+  assert.equal(r.kind, "error");
+  if (r.kind === "error") assert.equal(r.line, 5);
+});
