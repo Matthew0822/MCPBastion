@@ -39,3 +39,12 @@ test("parseLine reports invalid JSON as error", () => {
   assert.equal(r.kind, "error");
   if (r.kind === "error") assert.equal(r.line, 5);
 });
+
+test("parseLine rejects wrong field type", () => {
+  const r = parseLine('{"ts_ms":"x","seq":1,"decision":"forward","reason":"r","method":null,"tool":null,"id":null,"bytes_in":0,"bytes_out":0,"redacted":[],"balanced":true,"max_depth":0}', 1);
+  assert.equal(r.kind, "error");
+});
+
+test("parseLine rejects invalid decision", () => {
+  const r = parseLine('{"ts_ms":1,"seq":1,"decision":"nope","reason":"r","method":null,"tool":null,"id":null,"bytes_in":0,"bytes_out":0,"redacted":[],"balanced":true,"max_depth":0}', 1);
+  assert.equal(r.kind, "error");
