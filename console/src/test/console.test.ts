@@ -92,3 +92,12 @@ test("filterEvents narrows by decision and tool", () => {
 });
 
 test("renderReport produces a stable header and counts", () => {
+  const out = renderReport(aggregate(parseAuditLog(SAMPLE)));
+  assert.ok(out.includes("MCP Bastion — Audit Report"));
+  assert.ok(out.includes("Total messages : 3"));
+  assert.ok(out.includes("forward"));
+  assert.ok(out.includes("read_file"));
+});
+
+test("parsePolicy reads directives and defaults", () => {
+  const text = [
