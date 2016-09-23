@@ -110,3 +110,12 @@ test("parsePolicy reads directives and defaults", () => {
     'redaction_mask = "***"',
   ].join("\n");
   const { policy, issues } = parsePolicy(text);
+  assert.equal(policy.defaultAllow, false);
+  assert.deepEqual(policy.allowTools, ["read_file"]);
+  assert.deepEqual(policy.denyTools, ["shell.*"]);
+  assert.equal(policy.maxBytes, 1024);
+  assert.equal(policy.rateLimit, 5);
+  assert.equal(policy.redactionMask, "***");
+  assert.equal(issues.filter((i) => i.severity === "error").length, 0);
+});
+
