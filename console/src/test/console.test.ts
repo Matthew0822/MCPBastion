@@ -75,3 +75,11 @@ test("aggregate detects summary mismatch", () => {
   assert.equal(agg.summaryMatches, false);
 });
 
+test("aggregate builds per-tool stats sorted by total", () => {
+  const rep = parseAuditLog(SAMPLE);
+  const agg = aggregate(rep);
+  const tools = agg.tools.map((t) => t.tool);
+  assert.deepEqual(new Set(tools), new Set(["read_file", "list_dir", "shell.exec"]));
+  const shell = agg.tools.find((t) => t.tool === "shell.exec")!;
+  assert.equal(shell.denied, 1);
+});
