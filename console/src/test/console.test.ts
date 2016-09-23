@@ -83,3 +83,12 @@ test("aggregate builds per-tool stats sorted by total", () => {
   const shell = agg.tools.find((t) => t.tool === "shell.exec")!;
   assert.equal(shell.denied, 1);
 });
+
+test("filterEvents narrows by decision and tool", () => {
+  const rep = parseAuditLog(SAMPLE);
+  assert.equal(filterEvents(rep.events, { decision: "deny" }).length, 1);
+  assert.equal(filterEvents(rep.events, { tool: "read" }).length, 1);
+  assert.equal(filterEvents(rep.events, { decision: "forward", tool: "list" }).length, 1);
+});
+
+test("renderReport produces a stable header and counts", () => {
