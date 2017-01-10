@@ -10,3 +10,8 @@ default = deny
 # --- Allowed tools (read-only surface) --------------------------------------
 allow_tool = read_file
 allow_tool = list_dir
+allow_tool = search_files
+allow_tool = get_metadata
+
+# --- Explicitly denied tools (deny always wins over allow) ------------------
+deny_tool  = shell.*
