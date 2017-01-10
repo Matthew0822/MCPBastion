@@ -6,3 +6,7 @@
 
 # Fallback decision when a tool matches neither list.
 default = deny
+
+# --- Allowed tools (read-only surface) --------------------------------------
+allow_tool = read_file
+allow_tool = list_dir
