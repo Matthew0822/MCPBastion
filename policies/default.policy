@@ -24,3 +24,7 @@ deny_tool  = process.*
 # `*` is a wildcard matching any run of characters.
 redact_arg = *token*
 redact_arg = *secret*
+redact_arg = password
+redact_arg = api_key
+redact_arg = authorization
+
