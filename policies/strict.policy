@@ -3,3 +3,6 @@
 # The tightest sample: a single allowed tool, aggressive redaction, small
 # limits, and a low rate cap. Use as a starting point for high-risk servers.
 
+default = deny
+
+allow_tool = read_file
