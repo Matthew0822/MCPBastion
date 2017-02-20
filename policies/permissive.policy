@@ -11,3 +11,6 @@ deny_tool = fs.delete
 deny_tool = process.kill
 
 # Still redact obvious credentials.
+redact_arg = *token*
+redact_arg = password
+redact_arg = *secret*
