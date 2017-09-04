@@ -40,4 +40,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [0.1.0]: https://https://github.com/Matthew0822/MCPBastion/releases/tag/v0.1.0
 
-<!-- draft note 263 -->
+<!-- draft note 264 -->
