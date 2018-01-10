@@ -7,3 +7,12 @@ standard library alone. The authoritative implementation lives in
 parser in [`console/src/policy.ts`](../console/src/policy.ts) mirrors it for
 display and linting.
 
+## Syntax
+
+- One directive per line.
+- A directive is `key = value` **or** `key value` (the first `=` or run of
+  whitespace separates key from value).
+- Blank lines are ignored.
+- `#` starts a comment and runs to end of line, **unless** it appears inside a
+  double-quoted value (so a `redaction_mask` may contain `#`).
+- Values may be optionally double-quoted; the quotes are stripped. This is the
