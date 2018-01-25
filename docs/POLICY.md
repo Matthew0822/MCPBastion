@@ -16,3 +16,11 @@ display and linting.
 - `#` starts a comment and runs to end of line, **unless** it appears inside a
   double-quoted value (so a `redaction_mask` may contain `#`).
 - Values may be optionally double-quoted; the quotes are stripped. This is the
+  only way to include leading/trailing spaces or a literal `#`.
+
+## Directives
+
+| Directive         | Value           | Default      | Meaning |
+|-------------------|-----------------|--------------|---------|
+| `default`         | `allow`\|`deny` | `deny`       | Decision when a tool matches no list, and the gate for non-`tools/call` methods. |
+| `allow_tool`      | glob            | (none)       | Permit a tool by name. May repeat. |
