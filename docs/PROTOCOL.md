@@ -11,3 +11,14 @@ client ──stdin──▶ mcp-bastion ──stdout──▶ server
 
 ## Message framing
 
+- Input and output are **newline-delimited JSON** (`\n`). Each non-empty line
+  is treated as one JSON-RPC message. `\r\n` is tolerated (the trailing `\r`
+  is trimmed).
+- Blank lines are skipped and never forwarded.
+- The gateway forwards each **permitted** message as a single line followed by
+  `\n`. Redacted messages are re-emitted with only the redacted value spans
+  replaced; all other bytes are preserved exactly.
+
+This matches the line-based framing used by common MCP stdio clients. The
+gateway does not implement the HTTP/SSE transport.
+
