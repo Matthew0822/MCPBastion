@@ -22,3 +22,13 @@ client ──stdin──▶ mcp-bastion ──stdout──▶ server
 This matches the line-based framing used by common MCP stdio clients. The
 gateway does not implement the HTTP/SSE transport.
 
+## What the gateway understands about JSON — honestly
+
+The gateway does **not** contain a full JSON parser and does not claim to.
+Instead it uses a small, single-pass **field extractor**
+([`gateway/src/json_scan.rs`](../gateway/src/json_scan.rs)) that understands
+exactly enough of the grammar to be safe:
+
+- It correctly **skips string literals**, including `\"`, `\\`, and `\uXXXX`
+  escapes, so structural characters inside strings (`{`, `}`, `,`, `:`) are
+  never mistaken for structure. This is the property that matters for a
