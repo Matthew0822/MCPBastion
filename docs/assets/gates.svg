@@ -14,3 +14,13 @@
     </linearGradient>
     <radialGradient id="allowg" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#12ffd6" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#12ffd6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="denyg" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff2b4e" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ff2b4e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="redg" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffb020" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffb020" stop-opacity="0"/>
+    </radialGradient>
