@@ -115,3 +115,13 @@
 
   <!-- packet legend of what flows -->
   <g font-size="9" fill="#6f86b0">
+    <text x="150" y="300">read_file · list_dir · search_files · get_metadata  ▸ allow</text>
+    <text x="150" y="316">*token* · *secret* · api_key · authorization         ▸ redact</text>
+    <text x="150" y="332">shell.* · fs.delete · net.* · unknown · no-name       ▸ deny</text>
+  </g>
+
+  <!-- animated request packets -->
+  <!-- allowed packet -->
+  <g filter="url(#glow)">
+    <circle r="6" fill="#12ffd6">
+      <animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0.5;0.5;1" keyTimes="0;0.45;0.5;1" calcMode="linear"
