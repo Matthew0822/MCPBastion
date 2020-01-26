@@ -5,3 +5,6 @@ labels: bug
 ---
 
 **Command**
+
+```
+the exact command you ran
