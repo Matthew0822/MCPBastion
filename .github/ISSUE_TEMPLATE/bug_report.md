@@ -8,3 +8,6 @@ labels: bug
 
 ```
 the exact command you ran
+```
+
+**Expected**
