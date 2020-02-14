@@ -3,3 +3,5 @@
 Describe the change in one or two sentences.
 
 ## Checklist
+
+- [ ] `cargo test` passes (gateway)
