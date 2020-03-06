@@ -5,3 +5,11 @@ on:
     branches: [main]
   pull_request:
 
+jobs:
+  gateway:
+    name: Rust gateway
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gateway
+    steps:
