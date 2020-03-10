@@ -13,3 +13,11 @@ jobs:
       run:
         working-directory: gateway
     steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust toolchain
+        run: rustup component add clippy rustfmt
+      - name: Format check
+        run: cargo fmt --check
+      - name: Clippy (deny warnings)
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Test
