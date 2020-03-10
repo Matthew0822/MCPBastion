@@ -21,3 +21,12 @@ jobs:
       - name: Clippy (deny warnings)
         run: cargo clippy --all-targets -- -D warnings
       - name: Test
+        run: cargo test --all-targets
+      - name: Release build
+        run: cargo build --release
+
+  console:
+    name: TypeScript console
+    runs-on: ubuntu-latest
+    defaults:
+      run:
