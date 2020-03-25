@@ -38,3 +38,11 @@ jobs:
           node-version: "20"
       - name: Install
         run: npm install
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test
+
+  integration:
