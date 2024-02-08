@@ -1,0 +1,21 @@
+# Rust
+/gateway/target/
+**/*.rs.bk
+Cargo.lock
+
+# Node / TypeScript
+/console/node_modules/
+/console/dist/
+npm-debug.log*
+yarn-error.log*
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local scratch
+/sessions/err.txt
+*.tmp
