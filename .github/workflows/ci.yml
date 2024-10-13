@@ -55,3 +55,17 @@ jobs:
         with:
           node-version: "20"
       - name: Build gateway
+        run: cargo build --release
+        working-directory: gateway
+      - name: Build console
+        run: npm install && npm run build
+        working-directory: console
+      - name: Run gateway over the demo session
+        run: |
+          cat sessions/demo-session.jsonl \
+            | gateway/target/release/mcp-bastion \
+              --policy policies/default.policy \
+              --audit /tmp/audit.jsonl --stats --epoch-ms 0 \
+            > /tmp/forwarded.jsonl
+      - name: Report via the console (fails on summary mismatch)
+        run: node console/dist/cli.js report /tmp/audit.jsonl
