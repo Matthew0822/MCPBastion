@@ -14,3 +14,8 @@ the exact command you ran
 
 **Observed**
 
+**Environment**
+
+- OS:
+- Rust / Node version:
+- MCPBastion version:
