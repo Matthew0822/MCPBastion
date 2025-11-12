@@ -76,3 +76,20 @@ redact_arg = *token*
 max_bytes  = 65536
 rate_limit = 20
 rate_window_ms = 1000
+redaction_mask = "«redacted»"
+```
+
+- `read_file` → allowed.
+- `shell.exec` → denied (matches `shell.*`).
+- `write_file` → denied (default, not on allow list).
+- `read_file` with an `auth_token` argument → forwarded with the token value
+  replaced by `«redacted»`.
+- 21st forwarded message within 1 s → dropped by the rate limiter.
+
+## Linting
+
+`node console/dist/cli.js policy <file>` prints a summary and flags:
+
+- unknown directives and non-integer numeric values (errors);
+- `allow_tool` rules shadowed by a `deny_tool` (warning);
+- a redundant allow-list when `default = allow` (warning).
