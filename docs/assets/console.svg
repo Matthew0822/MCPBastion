@@ -86,3 +86,20 @@
     <text x="12" y="208" fill="#5fd6ff" font-size="10">$ node console/dist/cli.js report sessions/demo-audit.jsonl</text>
 
     <g font-size="10.5" fill="#bfe7ff">
+      <text x="12" y="230">Decisions   forward <tspan fill="#12ffd6">4</tspan> ####........  deny <tspan fill="#ff6b83">6</tspan> ############</text>
+      <text x="12" y="248">Redaction events : 3   ·   Unbalanced msgs : 0   ·   Max depth : 3</text>
+      <text x="12" y="266" fill="#12ffd6">Gateway summary : MATCHES  <tspan fill="#6f86b0">(cross-language recount agrees)</tspan></text>
+    </g>
+
+    <!-- blinking cursor -->
+    <rect x="12" y="278" width="8" height="13" fill="#12ffd6">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+    <text x="26" y="289" fill="#5fd6ff" font-size="10">_</text>
+
+    <!-- scanline shimmer -->
+    <rect x="1" y="26" width="542" height="2" fill="#12ffd6" opacity="0.12">
+      <animate attributeName="y" values="28;296;28" dur="6s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>
