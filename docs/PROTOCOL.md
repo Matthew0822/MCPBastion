@@ -108,3 +108,25 @@ audit sink (`stderr` by default, or `--audit <file>`). Serialisation is in
 |-----------|----------------------------------------------------------------|
 | `forward` | Permitted (after any redaction); written to stdout.            |
 | `deny`    | Blocked by an allow/deny rule or fail-closed extraction.       |
+| `drop`    | Discarded by a limit (size / rate) or because it is not an object. |
+| `error`   | Reserved for internal processing errors (none emitted in 0.1). |
+
+### Summary line
+
+With `--stats`, a final object is appended to the audit sink:
+
+```json
+{"summary":true,"total":10,"forward":4,"deny":6,"drop":0,"error":0}
+```
+
+The console cross-checks this against its own recount and exits non-zero from
+`report` if they disagree — a cheap integrity check across the two languages.
+
+## Exit codes
+
+| Code | Meaning                        |
+|------|--------------------------------|
+| 0    | Clean EOF.                     |
+| 1    | I/O error during the session.  |
+| 2    | Usage error (bad arguments).   |
+| 3    | Policy could not be loaded.    |
