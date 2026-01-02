@@ -451,3 +451,6 @@ redaction_mask = \"[hidden]\"
         let p = Policy::parse("redaction_mask = \"a#b\" # trailing\n").unwrap();
         assert_eq!(p.redaction_mask, "a#b");
     }
+}
+
+# draft note 1618
