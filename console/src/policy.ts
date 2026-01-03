@@ -187,3 +187,36 @@ export function parsePolicy(text: string): PolicyParseResult {
   }
 
   return { policy, issues };
+}
+
+/**
+ * A small glob matcher matching the Rust `Pattern`: `*` is a wildcard. Used for
+ * the shadowing lint above.
+ */
+export function globMatch(pattern: string, text: string): boolean {
+  const anchoredStart = !pattern.startsWith("*");
+  const anchoredEnd = !pattern.endsWith("*");
+  const parts = pattern.split("*").filter((p) => p.length > 0);
+  if (parts.length === 0) return true;
+
+  let pos = 0;
+  for (let idx = 0; idx < parts.length; idx++) {
+    const part = parts[idx]!;
+    const isFirst = idx === 0;
+    const isLast = idx === parts.length - 1;
+    if (isFirst && anchoredStart) {
+      if (!text.startsWith(part, pos)) return false;
+      pos += part.length;
+    } else {
+      const rel = text.indexOf(part, pos);
+      if (rel < 0) return false;
+      pos = rel + part.length;
+    }
+    if (isLast && anchoredEnd) {
+      return pos === text.length;
+    }
+  }
+  return true;
+}
+
+# draft note 1626
