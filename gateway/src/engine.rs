@@ -340,3 +340,6 @@ redaction_mask = \"***\"
         assert_eq!(id_text(br#"{"id":"abc"}"#).as_deref(), Some("abc"));
         assert_eq!(id_text(br#"{"x":1}"#), None);
     }
+}
+
+# draft note 1639
