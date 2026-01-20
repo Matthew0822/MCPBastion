@@ -184,3 +184,36 @@ mod tests {
         assert!(j.contains(r#""tool":"read_file""#));
         assert!(j.contains(r#""redacted":["token"]"#));
         assert!(j.contains(r#""balanced":true"#));
+        assert!(j.contains(r#""max_depth":3"#));
+    }
+
+    #[test]
+    fn nulls_are_emitted_for_absent_fields() {
+        let mut e = sample();
+        e.method = None;
+        e.tool = None;
+        e.id = None;
+        let j = e.to_json();
+        assert!(j.contains(r#""method":null"#));
+        assert!(j.contains(r#""tool":null"#));
+        assert!(j.contains(r#""id":null"#));
+    }
+
+    #[test]
+    fn escapes_reason() {
+        let mut e = sample();
+        e.reason = "he said \"no\"\n".into();
+        let j = e.to_json();
+        assert!(j.contains(r#""reason":"he said \"no\"\n""#));
+    }
+
+    #[test]
+    fn empty_redacted_is_empty_array() {
+        let mut e = sample();
+        e.redacted.clear();
+        let j = e.to_json();
+        assert!(j.contains(r#""redacted":[]"#));
+    }
+}
+
+# draft note 1636
