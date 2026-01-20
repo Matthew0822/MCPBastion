@@ -170,4 +170,4 @@ if (invokedPath.endsWith("cli.js") || invokedPath.endsWith("cli.ts")) {
   process.exit(main(process.argv.slice(2)));
 }
 
-# draft note 1634
+# draft note 1637
