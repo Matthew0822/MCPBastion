@@ -36,3 +36,13 @@ sink.
 | Module        | Responsibility                                             |
 |---------------|------------------------------------------------------------|
 | `json_scan`   | Honest single-pass JSON field extractor (not a full parser).|
+| `policy`      | Policy format, glob matcher, sliding-window rate limiter.   |
+| `redact`      | Byte-preserving argument-value redaction.                   |
+| `audit`       | Structured, one-line-per-event JSON serialisation.          |
+| `engine`      | Pure per-message decision pipeline.                         |
+| `main`        | CLI parsing and stdin/stdout/audit I/O.                     |
+
+Every module carries its own unit tests; `tests/integration.rs` exercises the
+full pipeline over realistic messages.
+
+<!-- draft note 1647 -->
