@@ -430,3 +430,63 @@ mod tests {
 
     #[test]
     fn finds_nested_object_then_key() {
+        let s = br#"{"params":{"name":"read_file"}}"#;
+        let params = top_level_span(s, "params").unwrap();
+        assert_eq!(params.kind, ValueKind::Object);
+        let name = find_key_in_object(s, params.start, "name").unwrap();
+        assert_eq!(name.kind, ValueKind::String);
+        assert_eq!(
+            decode_string(s, name.start, name.end).as_deref(),
+            Some("read_file")
+        );
+    }
+
+    #[test]
+    fn unicode_escape_decodes() {
+        let s = br#"{"m":"caf\u00e9"}"#;
+        assert_eq!(top_level_string(s, "m").as_deref(), Some("café"));
+    }
+
+    #[test]
+    fn surrogate_pair_decodes() {
+        let s = br#"{"m":"\ud83d\ude00"}"#; // 😀
+        assert_eq!(top_level_string(s, "m").as_deref(), Some("😀"));
+    }
+
+    #[test]
+    fn utf8_passthrough() {
+        let s = "{\"m\":\"héllo wörld\"}".as_bytes();
+        assert_eq!(top_level_string(s, "m").as_deref(), Some("héllo wörld"));
+    }
+
+    #[test]
+    fn structure_balanced_and_depth() {
+        let s = br#"{"a":[1,2,{"b":3}]}"#;
+        let r = structure_report(s);
+        assert!(r.balanced);
+        assert_eq!(r.max_depth, 3);
+    }
+
+    #[test]
+    fn structure_unbalanced_detected() {
+        let s = br#"{"a":[1,2}"#;
+        let r = structure_report(s);
+        assert!(!r.balanced);
+    }
+
+    #[test]
+    fn missing_key_returns_none() {
+        let s = br#"{"a":1}"#;
+        assert!(top_level_string(s, "zzz").is_none());
+    }
+
+    #[test]
+    fn scalar_span_is_not_string() {
+        let s = br#"{"id":42}"#;
+        let span = top_level_span(s, "id").unwrap();
+        assert_eq!(span.kind, ValueKind::Scalar);
+        assert_eq!(&s[span.start..span.end], b"42");
+    }
+}
+
+# draft note 1649
