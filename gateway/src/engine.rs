@@ -341,5 +341,3 @@ redaction_mask = \"***\"
         assert_eq!(id_text(br#"{"x":1}"#), None);
     }
 }
-
-# draft note 1659
