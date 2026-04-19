@@ -452,5 +452,3 @@ redaction_mask = \"[hidden]\"
         assert_eq!(p.redaction_mask, "a#b");
     }
 }
-
-# draft note 1641
