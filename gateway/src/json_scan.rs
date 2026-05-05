@@ -488,5 +488,3 @@ mod tests {
         assert_eq!(&s[span.start..span.end], b"42");
     }
 }
-
-# draft note 1649
