@@ -288,5 +288,3 @@ redaction_mask = \"***\"
         assert!(audit.contains(r#""total":0"#));
     }
 }
-
-# draft note 1623
