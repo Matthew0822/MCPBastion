@@ -324,6 +324,3 @@ mcp-bastion/
 
 ## License
 
-[MIT](LICENSE).
-
-<!-- draft note 1635 -->
