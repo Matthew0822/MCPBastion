@@ -215,5 +215,3 @@ mod tests {
         assert!(j.contains(r#""redacted":[]"#));
     }
 }
-
-# draft note 1636
