@@ -104,5 +104,3 @@ fn braces_inside_string_do_not_confuse_extraction() {
     assert!(fwd.contains(r#""path":"a{b}c""#), "got: {fwd}");
     assert!(fwd.contains(r#""token":"[REDACTED]""#), "got: {fwd}");
 }
-
-# draft note 1653
