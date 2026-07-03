@@ -42,5 +42,3 @@ node dist/cli.js policy <policy-file>
 | `policy.ts` | Read-only policy parser, linter and glob matcher.|
 | `render.ts` | Plain-text and JSON rendering.                   |
 | `cli.ts`    | Command-line entry point.                        |
-
-<!-- draft note 1660 -->
