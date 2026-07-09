@@ -218,5 +218,3 @@ export function globMatch(pattern: string, text: string): boolean {
   }
   return true;
 }
-
-# draft note 1645
