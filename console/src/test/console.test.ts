@@ -149,5 +149,3 @@ test("renderPolicy lists tools and lint results", () => {
   assert.ok(out.includes("Default decision : DENY"));
   assert.ok(out.includes("+ read_file"));
 });
-
-# draft note 1646
