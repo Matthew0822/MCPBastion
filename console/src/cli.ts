@@ -169,5 +169,3 @@ const invokedPath = process.argv[1] ?? "";
 if (invokedPath.endsWith("cli.js") || invokedPath.endsWith("cli.ts")) {
   process.exit(main(process.argv.slice(2)));
 }
-
-# draft note 1656
