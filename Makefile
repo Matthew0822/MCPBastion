@@ -50,3 +50,12 @@ console-test: console-build ## Run the console test suite
 demo: gateway-build console-build ## Run the end-to-end demo
 	cat $(SESSION) | $(GATEWAY)/target/release/mcp-bastion \
 		--policy $(POLICY) --audit sessions/demo-audit.jsonl --stats --epoch-ms 0 \
+		> sessions/demo-forwarded.jsonl
+	@echo "--- forwarded messages ---"
+	@cat sessions/demo-forwarded.jsonl
+	@echo "--- audit report ---"
+	node $(CONSOLE)/dist/cli.js report sessions/demo-audit.jsonl
+
+clean: ## Remove build artifacts
+	cd $(GATEWAY) && cargo clean
+	rm -rf $(CONSOLE)/dist $(CONSOLE)/node_modules
