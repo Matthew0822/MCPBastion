@@ -324,3 +324,4 @@ mcp-bastion/
 
 ## License
 
+[MIT](LICENSE).
