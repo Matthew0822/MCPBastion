@@ -39,5 +39,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `LICENSE` (MIT), `.gitignore`.
 
 [0.1.0]: https://https://github.com/Matthew0822/MCPBastion/releases/tag/v0.1.0
-
-<!-- draft note 1616 -->
